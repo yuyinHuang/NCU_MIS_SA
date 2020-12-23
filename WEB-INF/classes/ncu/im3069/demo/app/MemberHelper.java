@@ -60,7 +60,7 @@ public class MemberHelper {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
-        long start_time = System.nanoTime();
+        //long start_time = System.nanoTime();
         /** 紀錄SQL總行數 */
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -95,15 +95,15 @@ public class MemberHelper {
         }
 
         /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
+        //long end_time = System.nanoTime();
         /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
+        //long duration = (end_time - start_time);
         
         /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
-        response.put("time", duration);
+        //response.put("time", duration);
 
         return response;
     }
@@ -121,7 +121,7 @@ public class MemberHelper {
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 紀錄程式開始執行時間 */
-        long start_time = System.nanoTime();
+        //long start_time = System.nanoTime();
         /** 紀錄SQL總行數 */
         int row = 0;
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -149,14 +149,14 @@ public class MemberHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int member_id = rs.getInt("id");
+                String phoneNumber = rs.getString("phoneNumber");
                 String name = rs.getString("name");
-                String email = rs.getString("email");
                 String password = rs.getString("password");
-                int login_times = rs.getInt("login_times");
-                String status = rs.getString("status");
+                Date registerDate = rs.getDate("registerDate");
+                int status = rs.getInt("status");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, password, name, login_times, status);
+                m = new Member(member_id, phoneNumber, name, password, registerDate, status);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -173,11 +173,12 @@ public class MemberHelper {
         }
         
         /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
+        //long end_time = System.nanoTime();
         /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
+        //long duration = (end_time - start_time);
         
         /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        ?
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
