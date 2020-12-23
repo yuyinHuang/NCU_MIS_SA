@@ -33,27 +33,23 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`orders`(`last_name`, `first_name`, `email`, `address`, `phone`, `create`, `modify`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `missa`.`orders`(`phone`, `name`, `payment_method`, `state_of_order`, `date_of_order`)"
+                    + " VALUES(?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
-            String first_name = order.getFirstName();
-            String last_name = order.getLastName();
-            String email = order.getEmail();
-            String address = order.getAddress();
             String phone = order.getPhone();
-            Timestamp create = order.getCreateTime();
-            Timestamp modify = order.getModifyTime();
+            String name = order.getName();
+            String payment_method = order.getPaymentMethod();
+            String state_of_order = order.getStateOforder();
+            Timestamp date_of_order = order.getCreateTime();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pres.setString(1, last_name);
-            pres.setString(2, first_name);
-            pres.setString(3, email);
-            pres.setString(4, address);
-            pres.setString(5, phone);
-            pres.setTimestamp(6, create);
-            pres.setTimestamp(7, modify);
+            pres.setString(1, phone);
+            pres.setString(2, name);
+            pres.setString(3, payment_method);
+            pres.setString(4, state_of_order);
+            pres.setTimestamp(5, date_of_order);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             pres.executeUpdate();
@@ -122,16 +118,14 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
                 String phone = rs.getString("phone");
-                Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
+                String name = rs.getString("name");
+                String payment_method = rs.getString("payment_method");
+                String state_of_order = rs.getString("state_of_order");
+                Timestamp date_of_order = rs.getTimestamp("date_of_order");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
+                o = new Order(id, phone, name, payment_method, date_of_order, state_of_order);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(o.getOrderAllInfo());
             }
@@ -197,16 +191,14 @@ public class OrderHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int id = rs.getInt("id");
-                String first_name = rs.getString("first_name");
-                String last_name = rs.getString("last_name");
-                String email = rs.getString("email");
-                String address = rs.getString("address");
                 String phone = rs.getString("phone");
-                Timestamp create = rs.getTimestamp("create");
-                Timestamp modify = rs.getTimestamp("modify");
+                String name = rs.getString("name");
+                String payment_method = rs.getString("payment_method");
+                String state_of_order = rs.getString("state_of_order");  
+                Timestamp date_of_order = rs.getTimestamp("date_of_order");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                o = new Order(id, first_name, last_name, email, address, phone, create, modify);
+                o = new Order(id, phone, name, payment_method, date_of_order, state_of_order);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 data = o.getOrderAllInfo();
             }
