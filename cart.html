@@ -8,7 +8,7 @@
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Jekyll v3.8.5">
 
-  <title>購物車 ｜ NCCU MIS SA</title>
+  <title>購物車 ｜ NCU MIS SA</title>
 
   <!-- Bootstrap core CSS -->
   <link href="statics/css/bootstrap.min.css" rel="stylesheet">
@@ -81,7 +81,7 @@
 		          <span id="total_quantity" class="text-success">0</span>
 		        </li>
 		        <li class="list-group-item d-flex justify-content-between">
-		          <span>Total (USD)</span>
+		          <span>Total (TWD)</span>
 		          <strong>$ <span id="summary">0.00</span></strong>
 		        </li>
 		      </ul>
@@ -118,7 +118,10 @@
 	          <label for="address">住址</label>
 	          <input type="text" class="form-control" id="address" maxlength="255" placeholder="請輸入有效之地址！" required>
 	        </div>
-
+	        <div><center>
+  	<a class="btn btn-outline-success" href="cup.html">加購環保杯</a>
+  	</center>
+  </div>
 	        <h4 class="mb-3">商品資訊</h4>
 	        <hr class="mb-4">
 	        <div class="row">
@@ -132,6 +135,7 @@
 			              <th class="text-center" style="width: 10%">數量</th>
 			              <th class="text-center" style="width: 15%">小計</th>
 			              <th class="text-center" style="width: 10%">刪除</th>
+			              <th class="text-center" style="width: 10%">加購</th>
 			            </tr>
 			          </thead>
 			          <tbody>
@@ -338,7 +342,7 @@
         	table_html += '<td class="align-middle text-center"><input type="input" name="quantity[]" class="input-sm form-control text-center" id="quantity_' + value.id + '" maxlength="5" min="0" step="1"></td>';
         	table_html += '<td class="align-middle text-center"><strong><span id="subtotal_' + value.id + '"><strong></td>';
         	table_html += '<td class="align-middle text-center"><button id="remove_' + value.id + '" name="remove[]" type="button" class="btn btn-danger">移除</button></td>';
-        	table_html += '<td class="align-middle text-center"><button id="add_' + value.id + '" name="add[]" type="button" class="btn btn-danger">加購副商品</button></td>';
+        	table_html += '<td class="align-middle text-center"><button id="add_' + value.id + '" name="add[]"type="button" class="btn btn-success">環保杯</button></td>';
         	table_html += '</tr>';
         })
 
