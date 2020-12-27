@@ -55,13 +55,15 @@
     
   <div><center>
   	<a class="btn btn-outline-success" href="cart.html">確認</a>
+  	<a class="btn btn-outline-success" href="cart.html">取消</a>
   	</center>
   </div>
   </div>
 
   <script>   
     var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
-    
+    var choose = -1;
+   
     function getAllProduct() {
       $.ajax({
         type: "GET",
@@ -80,7 +82,7 @@
         	
         	$("#product_panel").append(product_panel);
         	setButtonFunction();
-        	checkIfExistInCart();
+        	//checkIfExistInCart();
           }
         },
         error: function () {
@@ -92,7 +94,7 @@
     getAllProduct();
     function addProduct(data) {
     	let inner_html = '';
-    	inner_html += '<div class="col-md-4">';
+    	inner_html += '<div class="col-md-3">';
    		inner_html += '<div class="card-header">';
    		inner_html += '<h4 class="font-weight-normal text-center text-truncate">' + data.name + '</h4>';
  		inner_html += '</div>';
@@ -103,7 +105,7 @@
 		inner_html += '<p class="card-text">' + data.describe + '</p>';
 		inner_html += '<div class="d-flex justify-content-between align-items-center">';
 		inner_html += '<div class="btn-group">';
-		inner_html += '<button id="add_cart_' + data.id + '" name="add_cart" type="button" class="btn btn-lg btn-block btn-outline-primary">加入購物車</button>';
+		inner_html += '<button id="add_cart_' + data.id + '" name="add_cart" type="button" class="btn btn-lg btn-block btn-outline-primary">選擇</button>';
 		inner_html += '</div><small class="text-muted">id: ' + data.id + '</small>';
 		inner_html += '</div></div></div></div>';
     	
@@ -115,7 +117,18 @@
     		var action = (this.id).split('_')[0];
     		var destination = (this.id).split('_')[1];
     		var id = (this.id).split('_')[2];
-    		addProductToCart(id, 1);
+    		choose = id;
+    		//addProductToCart(id, 1);
+    		for(var i = 1 ; i < 5 ; i++){
+    			//var this_id = 
+    			var this_id = "add_cart_" + i;
+    	    	if (i == choose) {
+   	            	setButtonState(this_id, false);
+   	          	}
+   	          	else {
+   	            	setButtonState(this_id, true);
+   	          	}
+    		}
         });
     }
     
@@ -159,8 +172,8 @@
     
     function setButtonState(id, action) {
     	if (!action) {
-    	    $('#' + id).prop('disabled', true);
-    	    $('#' + id).addClass('disabled');
+    	    $('#' + id).prop('disabled', false);
+    	    $('#' + id).removeClass('disabled');
     	    $('#' + id).html('已選擇');
     	}
     	else {
