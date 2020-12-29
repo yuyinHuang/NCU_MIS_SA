@@ -53,11 +53,14 @@
       </div>
     </div>
     
-  <div><center>
-  	<a class="btn btn-outline-success" href="cart.html">確認</a>
-  	<a class="btn btn-outline-success" href="cart.html">取消</a>
-  	</center>
-  </div>
+  <div style="text-align: center; ">
+  	<a href="cart.html">
+  		<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
+  		<button type="button" class="btn btn-lg btn-outline-success">取消</button>
+  	</a>
+	  	<!-- <a class="btn btn-outline-success">確認</a>
+		<a class="btn btn-outline-success" href="cart.html">取消</a> -->
+  	</div>
   </div>
 
   <script>   
@@ -101,13 +104,12 @@
  		inner_html += '<div class="card mb-4 shadow-sm">';
  		inner_html += '<img src="statics/img/product/' + data.image + '" width="100%">';
 		inner_html += '<div class="card-body">';
-		inner_html += '<h1 class="card-title pricing-card-title">$' + data.price + ' <small class="text-muted">/ USD</small></h1>';
+		inner_html += '<h1 class="card-title pricing-card-title">$' + data.price + ' <small class="text-muted">/ NTD</small></h1>';
 		inner_html += '<p class="card-text">' + data.describe + '</p>';
 		inner_html += '<div class="d-flex justify-content-between align-items-center">';
 		inner_html += '<div class="btn-group">';
 		inner_html += '<button id="add_cart_' + data.id + '" name="add_cart" type="button" class="btn btn-lg btn-block btn-outline-primary">選擇</button>';
-		inner_html += '</div><small class="text-muted">id: ' + data.id + '</small>';
-		inner_html += '</div></div></div></div>';
+		inner_html += '</div></div></div></div></div>';
     	
 		return inner_html;
     }
@@ -118,17 +120,19 @@
     		var destination = (this.id).split('_')[1];
     		var id = (this.id).split('_')[2];
     		choose = id;
-    		//addProductToCart(id, 1);
     		for(var i = 1 ; i < 5 ; i++){
-    			//var this_id = 
-    			var this_id = "add_cart_" + i;
     	    	if (i == choose) {
-   	            	setButtonState(this_id, false);
+   	            	setButtonState("add_cart_" + i, false);
    	          	}
    	          	else {
-   	            	setButtonState(this_id, true);
+   	            	setButtonState("add_cart_" + i, true);
    	          	}
     		}
+        });
+    	$('button[name="confirm_btn"]').click(function () {
+        	if(choose != -1){
+				addProductToCart(choose, 1);
+        	}
         });
     }
     
@@ -141,20 +145,16 @@
     }
     
     function addProductToCart(id, amount) {
-    	if (!(client_cart_obj.includes(id))) {
-    		client_cart_obj.push(id);
-    		client_cart_amount.push(amount);
-    		updateCartDataToClent();
-    	}
-    	
-    	checkIfExistInCart();
+    	client_cart_obj.push(id);
+    	client_cart_amount.push(amount);
+    	updateCartDataToClent();
     }
     
     function updateCartDataToClent() {
     	localStorage.setItem("client_cart_obj", JSON.stringify(client_cart_obj));
     	localStorage.setItem("client_cart_amount", JSON.stringify(client_cart_amount));
     }
-    
+    /*
     function checkIfExistInCart() {
     	$('button[name="add_cart"]').each(function (){
     		var action = (this.id).split('_')[0];
@@ -168,7 +168,7 @@
     		}
     		
         });
-    }
+    }*/
     
     function setButtonState(id, action) {
     	if (!action) {
