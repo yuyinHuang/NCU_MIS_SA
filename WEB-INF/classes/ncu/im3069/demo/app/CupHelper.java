@@ -5,7 +5,6 @@ import java.sql.*;
 import org.json.*;
 
 import ncu.im3069.demo.util.DBMgr;
-import ncu.im3069.demo.app.Product;
 
 public class CupHelper {
     private CupHelper() {
@@ -25,7 +24,7 @@ public class CupHelper {
     
     public JSONObject getAll() {
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
-    	cup c = null;
+     Cup c = null;
         /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
@@ -41,7 +40,7 @@ public class CupHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`products`";
+            String sql = "SELECT * FROM `missa`.`cup`";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -65,7 +64,7 @@ public class CupHelper {
                 int quantity = rs.getInt("quantity");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                c = new cup(cup_id, name, price, image, quantity);
+                c = new Cup(cup_id, name, price, image, quantity);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(c.getData());
             }
@@ -98,7 +97,7 @@ public class CupHelper {
     
     public JSONObject getByIdList(String data) {
       /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
-      cup c = null;
+      Cup c = null;
       /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
       JSONArray jsa = new JSONArray();
       /** 記錄實際執行之SQL指令 */
@@ -113,7 +112,7 @@ public class CupHelper {
           conn = DBMgr.getConnection();
           String[] in_para = DBMgr.stringToArray(data, ",");
           /** SQL指令 */
-          String sql = "SELECT * FROM `missa`.`products` WHERE `products`.`id`";
+          String sql = "SELECT * FROM `missa`.`cup` WHERE `cup`.`id`";
           for (int i=0 ; i < in_para.length ; i++) {
               sql += (i == 0) ? "in (?" : ", ?";
               sql += (i == in_para.length-1) ? ")" : "";
@@ -144,7 +143,7 @@ public class CupHelper {
               int quantity = rs.getInt("quantity");
               
               /** 將每一筆商品資料產生一名新Product物件 */
-              c = new cup(cup_id, name, price, image, quantity);
+              c = new Cup(cup_id, name, price, image, quantity);
               /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
               jsa.put(c.getData());
           }
@@ -169,9 +168,9 @@ public class CupHelper {
       return response;
   }
     
-    public cup getById(String id) {
+    public Cup getById(String id) {
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
-        cup c = null;
+        Cup c = null;
         /** 記錄實際執行之SQL指令 */
         String exexcute_sql = "";
         /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
@@ -181,7 +180,7 @@ public class CupHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `missa`.`products` WHERE `products`.`id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `missa`.`cup` WHERE `cup`.`id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中，若無則不用只需要執行 prepareStatement */
             pres = conn.prepareStatement(sql);
@@ -203,7 +202,7 @@ public class CupHelper {
                 int quantity = rs.getInt("quantity");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                c = new cup(cup_id, name, price, image, quantity);
+                c = new Cup(cup_id, name, price, image, quantity);
             }
 
         } catch (SQLException e) {
