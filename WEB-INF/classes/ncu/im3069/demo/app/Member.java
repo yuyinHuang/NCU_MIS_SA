@@ -3,8 +3,8 @@ package ncu.im3069.demo.app;
 import org.json.*;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+//import java.util.Calendar;
+//import java.util.Date;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,10 +51,10 @@ public class Member {
      * @param password 會員密碼
      * @param name 會員姓名
      */
-    public Member(String phoneNumber, String password, String name) {
+    public Member(String phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.name = name;
+        //this.name = name;
         update();
     }
 
@@ -76,6 +76,13 @@ public class Member {
         //getLoginTimesStatus();
         /** 計算會員之組別 */
        // calcAccName();
+    }
+    public Member(String phoneNumber, String password, String name,Timestamp registerDate, int status) {
+    	this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.name = name;
+        this.registerDate = registerDate;
+        this.status = status;
     }
     
     /**
