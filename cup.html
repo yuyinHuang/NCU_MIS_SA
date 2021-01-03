@@ -47,21 +47,19 @@
     <a class="btn btn-outline-primary" href="cart.html">購物車</a>
   </div>
 
-  <div class="album py-5 bg-light">
-    <div class="container">
-      <div id="product_panel" class="row">
-      </div>
-    </div>
-    
-  <div style="text-align: center; ">
-  	<a href="cart.html">
-  		<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
-  		<button type="button" class="btn btn-lg btn-outline-success">取消</button>
-  	</a>
-	  	<!-- <a class="btn btn-outline-success">確認</a>
-		<a class="btn btn-outline-success" href="cart.html">取消</a> -->
+  	<div class="album py-5 bg-light">
+		<div class="container">
+      		<div id="product_panel" class="row">
+      		</div>
+      		<!-- <div id="cup_panel" class="row">
+      		</div> -->
+      		<div style="text-align:right;"> 
+    			<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
+      			<button name="cancel_btn" type="button" class="btn btn-lg btn-outline-success">取消</button>
+      			<!-- <button name="newcup_btn" type="button" class="btn btn-lg btn-outline-success">新增</button> -->
+    		</div>
+  		</div>
   	</div>
-  </div>
 
   <script>   
     var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
@@ -70,7 +68,7 @@
     function getAllProduct() {
       $.ajax({
         type: "GET",
-        url: "api/product.do",
+        url: "api/cup.do", //這裡有改
         crossDomain: true,
         cache: false,
         dataType: 'json',
@@ -78,14 +76,18 @@
         success: function (response) {
           if (response.status == 200) {
         	var product_panel = '';
+        	var cup_panel ='';//
         	
         	$.each(response.response.data, function (){
         		product_panel += addProduct(this);
         	})
+        	$.each(response.response.data, function (){		//
+        		cup_panel += addcup(this);
+        	})
         	
         	$("#product_panel").append(product_panel);
-        	setButtonFunction();
-        	//checkIfExistInCart();
+        	$("#cup_panel").append(cup_panel);	//
+        		setButtonFunction();
           }
         },
         error: function () {
@@ -102,14 +104,26 @@
    		inner_html += '<h4 class="font-weight-normal text-center text-truncate">' + data.name + '</h4>';
  		inner_html += '</div>';
  		inner_html += '<div class="card mb-4 shadow-sm">';
- 		inner_html += '<img src="statics/img/product/' + data.image + '" width="100%">';
+ 		inner_html += '<img src="statics/img/cup/' + data.image + '" width="100%">';
 		inner_html += '<div class="card-body">';
 		inner_html += '<h1 class="card-title pricing-card-title">$' + data.price + ' <small class="text-muted">/ NTD</small></h1>';
-		inner_html += '<p class="card-text">' + data.describe + '</p>';
 		inner_html += '<div class="d-flex justify-content-between align-items-center">';
 		inner_html += '<div class="btn-group">';
 		inner_html += '<button id="add_cart_' + data.id + '" name="add_cart" type="button" class="btn btn-lg btn-block btn-outline-primary">選擇</button>';
-		inner_html += '</div></div></div></div></div>';
+		inner_html += '</div><small class="text-muted">Stock: ' + data.quantity + '</small>';
+		inner_html += '</div></div></div></div>';
+    	
+		return inner_html;
+    }
+    function addcup(data) {	//
+    	let inner_html = '';
+    	inner_html += '<div class="col-md-3">';
+ 		inner_html += '<center><img src="statics/img/cup/' + data.image + '" width="100%"></center>';
+		inner_html += '<center><h4 class="card-title pricing-card-title">' + data.name + '</h4></center>';
+		inner_html += '<div style="text-align:center;">';
+		inner_html += '<button id="edit_cup_' + data.id + '" name="edit_cart" type="button" class="btn btn-outline-primary">編輯</button>';
+		inner_html += '<button id="delete_cup_' + data.id + '" name="delete_cart" type="button" class="btn btn-outline-primary">刪除</button>';
+		inner_html += '</div></div>';
     	
 		return inner_html;
     }
@@ -132,7 +146,14 @@
     	$('button[name="confirm_btn"]').click(function () {
         	if(choose != -1){
 				addProductToCart(choose, 1);
+				var url = "cart.html?"+choose;	//跳轉至cart、?後面接選擇的參數
+				window.location.href = url;
         	}
+        });
+    	$('button[name="cancel_btn"]').click(function () {
+        	choose = 0;
+			var url = "cart.html?0";//跳轉至cart、?後面接0
+			window.location.href = url;
         });
     }
     
@@ -154,21 +175,6 @@
     	localStorage.setItem("client_cart_obj", JSON.stringify(client_cart_obj));
     	localStorage.setItem("client_cart_amount", JSON.stringify(client_cart_amount));
     }
-    /*
-    function checkIfExistInCart() {
-    	$('button[name="add_cart"]').each(function (){
-    		var action = (this.id).split('_')[0];
-    		var destination = (this.id).split('_')[1];
-    		var id = (this.id).split('_')[2];
-    		if (client_cart_obj.includes(id)) {
-    			setButtonState(this.id, false);
-    		}
-    		else {
-    			setButtonState(this.id, true);
-    		}
-    		
-        });
-    }*/
     
     function setButtonState(id, action) {
     	if (!action) {
@@ -184,7 +190,7 @@
     }
   </script>
 
-  <footer class="text-muted">
+  <!-- <footer class="text-muted">
     <div class="container">
       <p class="float-right">
         <a href="#">Back to top</a>
@@ -193,7 +199,7 @@
       <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
           href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p>
     </div>
-  </footer>
+  </footer> -->
 </body>
 
 </html>

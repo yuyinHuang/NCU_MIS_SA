@@ -30,10 +30,10 @@ public class Cup {
 
     /**
      * 實例化（Instantiates）一個新的（new）Cup 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於新增產品時
-     * @param name 產品名稱
-     * @param price 產品價格
-     * @param image 產品圖片
+     * 採用多載（overload）方法進行，此建構子用於新增副商品時
+     * @param name 副商品名稱
+     * @param price 副商品價格
+     * @param image 副商品圖片
      */
 	public Cup(String name, int price, String image) {
 		this.name = name;
@@ -42,13 +42,13 @@ public class Cup {
 	}
 
     /**
-     * 實例化（Instantiates）一個新的（new）Product 物件<br>
+     * 實例化（Instantiates）一個新的（new）Cup 物件<br>
      * 採用多載（overload）方法進行，此建構子用於修改產品時
-     * @param id 產品編號
-     * @param name 產品名稱
-     * @param price 產品價格
-     * @param image 產品圖片
-     * @param quantity 產品數量
+     * @param id 副商品編號
+     * @param name 副商品名稱
+     * @param price 副商品價格
+     * @param image 副商品圖片
+     * @param quantity 副商品數量
      */
 	public Cup(int id, String name, int price, String image, int quantity) {
 		this.id = id;
@@ -60,7 +60,7 @@ public class Cup {
 
     /**
      * 取得產品編號
-     * @return int 回傳產品編號
+     * @return int 回傳副商品編號
      */
 	public int getID() {
 		return this.id;
@@ -76,7 +76,7 @@ public class Cup {
 
     /**
      * 取得產品價格
-     * @return double 回傳產品價格
+     * @return int 回傳副商品價格
      */
 	public int getPrice() {
 		return this.price;
@@ -84,7 +84,7 @@ public class Cup {
 
     /**
      * 取得產品圖片
-     * @return String 回傳產品圖片
+     * @return String 回傳副商品圖片
      */
 	public String getImage() {
 		return this.image;
@@ -92,7 +92,7 @@ public class Cup {
 
 	 /**
      * 取得產品數量
-     * @return Int 回傳產品數量
+     * @return int 回傳副商品數量
      */
 	public int getQuantity() {
 		return this.quantity;

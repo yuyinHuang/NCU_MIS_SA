@@ -63,7 +63,7 @@ public class CupHelper {
                 String image = rs.getString("image");
                 int quantity = rs.getInt("quantity");
                 
-                /** 將每一筆商品資料產生一名新Product物件 */
+                /** 將每一筆商品資料產生一名新cup物件 */
                 c = new Cup(cup_id, name, price, image, quantity);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(c.getData());
