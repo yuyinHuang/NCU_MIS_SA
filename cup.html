@@ -49,14 +49,12 @@
 
   	<div class="album py-5 bg-light">
 		<div class="container">
+      		<button style="text-align:center;" name="newcup_btn" type="button" class="btn btn-outline-danger">新增</button>
       		<div id="product_panel" class="row">
       		</div>
-      		<!-- <div id="cup_panel" class="row">
-      		</div> -->
-      		<div style="text-align:right;"> 
+      		<div style="text-align:right;">
     			<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
       			<button name="cancel_btn" type="button" class="btn btn-lg btn-outline-success">取消</button>
-      			<!-- <button name="newcup_btn" type="button" class="btn btn-lg btn-outline-success">新增</button> -->
     		</div>
   		</div>
   	</div>
@@ -76,17 +74,12 @@
         success: function (response) {
           if (response.status == 200) {
         	var product_panel = '';
-        	var cup_panel ='';//
         	
         	$.each(response.response.data, function (){
         		product_panel += addProduct(this);
         	})
-        	$.each(response.response.data, function (){		//
-        		cup_panel += addcup(this);
-        	})
         	
         	$("#product_panel").append(product_panel);
-        	$("#cup_panel").append(cup_panel);	//
         		setButtonFunction();
           }
         },
@@ -99,6 +92,7 @@
     getAllProduct();
     function addProduct(data) {
     	let inner_html = '';
+    	
     	inner_html += '<div class="col-md-3">';
    		inner_html += '<div class="card-header">';
    		inner_html += '<h4 class="font-weight-normal text-center text-truncate">' + data.name + '</h4>';
@@ -112,18 +106,16 @@
 		inner_html += '<button id="add_cart_' + data.id + '" name="add_cart" type="button" class="btn btn-lg btn-block btn-outline-primary">選擇</button>';
 		inner_html += '</div><small class="text-muted">Stock: ' + data.quantity + '</small>';
 		inner_html += '</div></div></div></div>';
-    	
-		return inner_html;
-    }
-    function addcup(data) {	//
-    	let inner_html = '';
-    	inner_html += '<div class="col-md-3">';
+
+
+    	/*inner_html += '<div class="col-md-3">';
  		inner_html += '<center><img src="statics/img/cup/' + data.image + '" width="100%"></center>';
 		inner_html += '<center><h4 class="card-title pricing-card-title">' + data.name + '</h4></center>';
 		inner_html += '<div style="text-align:center;">';
 		inner_html += '<button id="edit_cup_' + data.id + '" name="edit_cart" type="button" class="btn btn-outline-primary">編輯</button>';
 		inner_html += '<button id="delete_cup_' + data.id + '" name="delete_cart" type="button" class="btn btn-outline-primary">刪除</button>';
-		inner_html += '</div></div>';
+		inner_html += '</div></div>';*/
+
     	
 		return inner_html;
     }

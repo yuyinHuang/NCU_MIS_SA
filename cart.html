@@ -243,6 +243,8 @@
     }
 
     function getCartProduct() {
+    	var url = location.href;
+    	console.log(url.split("?")[1]);
       $.ajax({
         type: "GET",
         url: "api/product.do",
