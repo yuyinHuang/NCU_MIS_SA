@@ -48,8 +48,7 @@
   </div>
 
   	<div class="album py-5 bg-light">
-		<div class="container">
-      		<button style="text-align:center;" name="newcup_btn" type="button" class="btn btn-outline-danger">新增</button>
+		<div class="container">     		
       		<div id="product_panel" class="row">
       		</div>
       		<div style="text-align:right;">
@@ -66,7 +65,7 @@
     function getAllProduct() {
       $.ajax({
         type: "GET",
-        url: "api/cup.do", //這裡有改
+        url: "api/cup.do",
         crossDomain: true,
         cache: false,
         dataType: 'json',
@@ -114,7 +113,8 @@
 		inner_html += '<div style="text-align:center;">';
 		inner_html += '<button id="edit_cup_' + data.id + '" name="edit_cart" type="button" class="btn btn-outline-primary">編輯</button>';
 		inner_html += '<button id="delete_cup_' + data.id + '" name="delete_cart" type="button" class="btn btn-outline-primary">刪除</button>';
-		inner_html += '</div></div>';*/
+		inner_html += '</div></div>';*/ 		
+		//這些先不要刪
 
     	
 		return inner_html;
