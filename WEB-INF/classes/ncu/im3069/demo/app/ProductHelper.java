@@ -17,7 +17,7 @@ public class ProductHelper {
     private PreparedStatement pres = null;
     
     public static ProductHelper getHelper() {
-        /** Singleton檢查是否已經有ProductHelper物件，若無則new一個，若有則直接回傳 */
+        /** Singleton檢查是否已經有ProductHelper物件，若無則new一個，若有則直接回傳*/
         if(ph == null) ph = new ProductHelper();
         
         return ph;

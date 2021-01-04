@@ -45,7 +45,7 @@ public class Product {
 
     /**
      * 實例化（Instantiates）一個新的（new）Product 物件<br>
-     * 採用多載（overload）方法進行，此建構子用於修改產品時
+     * 採用多載（overload）方法進行，此建構子用於修改產品
      *
      * @param id 商品編號
      * @param name 商品名稱
