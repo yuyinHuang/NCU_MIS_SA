@@ -17,7 +17,7 @@ public class ProductHelper {
     private PreparedStatement pres = null;
     
     public static ProductHelper getHelper() {
-        /** Singleton檢查是否已經有ProductHelper物件，若無則new一個，若有則直接回傳 */
+        /** Singleton檢查是否已經有ProductHelper物件，若無則new一個，若有則直接回傳*/
         if(ph == null) ph = new ProductHelper();
         
         return ph;
@@ -25,7 +25,7 @@ public class ProductHelper {
     
     public JSONObject getAll() {
         /** 新建一個 Product 物件之 m 變數，用於紀錄每一位查詢回之商品資料 */
-    	Product p = null;
+     Product p = null;
         /** 用於儲存所有檢索回之商品，以JSONArray方式儲存 */
         JSONArray jsa = new JSONArray();
         /** 記錄實際執行之SQL指令 */
@@ -60,12 +60,12 @@ public class ProductHelper {
                 /** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
+                int  price = rs.getInt("price");
                 String image = rs.getString("image");
-                String describe = rs.getString("describe");
+                String description = rs.getString("description");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, describe);
+                p = new Product(product_id, name, price, image, description);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(p.getData());
             }
@@ -141,12 +141,12 @@ public class ProductHelper {
               /** 將 ResultSet 之資料取出 */
               int product_id = rs.getInt("id");
               String name = rs.getString("name");
-              double price = rs.getDouble("price");
+              int price = rs.getInt("price");
               String image = rs.getString("image");
-              String describe = rs.getString("describe");
+              String description = rs.getString("description");
               
               /** 將每一筆商品資料產生一名新Product物件 */
-              p = new Product(product_id, name, price, image, describe);
+              p = new Product(product_id, name, price, image, description);
               /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
               jsa.put(p.getData());
           }
@@ -206,12 +206,12 @@ public class ProductHelper {
                 /** 將 ResultSet 之資料取出 */
                 int product_id = rs.getInt("id");
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
+                int price = rs.getInt("price");
                 String image = rs.getString("image");
-                String describe = rs.getString("describe");
+                String description = rs.getString("description");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                p = new Product(product_id, name, price, image, describe);
+                p = new Product(product_id, name, price, image, description);
             }
 
         } catch (SQLException e) {
