@@ -11,8 +11,6 @@ public class Order {
     /** id，訂單編號 */
     private int id;
 
-    private String item;
-
     private String paymentMethod;
 
     private Timestamp dateOforder;
@@ -26,10 +24,10 @@ public class Order {
     private String name_Member;
     
     /** list，訂單列表 */
-    private ArrayList<OrderItem> list = new ArrayList<OrderItem>();
+    private ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
     /** oph，OrderItemHelper 之物件與 Order 相關之資料庫方法（Sigleton） */
-    private OrderItemHelper oph = OrderItemHelper.getHelper();
+    private OrderDetailHelper oph = OrderDetailHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
@@ -72,17 +70,12 @@ public class Order {
 
     //新增一個訂單產品及其數量
     public void addOrderProduct(Product pd, int quantity) {
-        this.list.add(new OrderItem(pd, quantity));
+        this.list.add(new OrderDetail(pd, quantity));
     }
 
     //新增一個訂單產品
-    public void addOrderProduct(OrderItem op) {
+    public void addOrderProduct(OrderDetail op) {
         this.list.add(op);
-    }
-
-    //設定訂單編號
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -144,7 +137,7 @@ public class Order {
      *
      * @return the data 取得該名會員之所有資料並封裝於JSONObject物件內
      */
-    public ArrayList<OrderItem> getOrderProduct() {
+    public ArrayList<OrderDetail> getOrderProduct() {
         return this.list;
     }
 
@@ -152,7 +145,7 @@ public class Order {
      * 從 DB 中取得訂單產品
      */
     private void getOrderProductFromDB() {
-        ArrayList<OrderItem> data = oph.getOrderProductByOrderId(this.id);
+        ArrayList<OrderDetail> data = oph.getOrderProductByOrderId(this.id);
         this.list = data;
     }
 
@@ -165,7 +158,7 @@ public class Order {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
         jso.put("name", getName());
-        jso.put("phone", getPhone());
+        jso.put("phone_number", getPhone());
         jso.put("payment_method", getPaymentMethod());
         jso.put("state_of_order", getStateOforder());
         jso.put("create", getCreateTime());
