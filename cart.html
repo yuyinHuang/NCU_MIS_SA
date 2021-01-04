@@ -43,7 +43,7 @@
 
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <a href="product.html"><img src="statics/img/LOGO.png" border="0"></a>
+    <a href="balance.html"><img src="statics/img/LOGO.png" border="0"></a>
     <h5 class="my-0 mr-md-auto font-weight-normal">balance</h5>
     <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="index.html">Member</a>
@@ -70,8 +70,9 @@
 		              <th class="text-center" style="width: 15%">品名</th>
 			          <th class="text-center" style="width: 10%">單價</th>
 			          <th class="text-center" style="width: 10%">數量</th>
-			          <th class="text-center" style="width: 15%">甜度冰塊</th>
-			          <th class="text-center" style="width: 15%">加購</th>
+			          <th class="text-center" style="width: 10%">甜度</th>
+			          <th class="text-center" style="width: 10%">冰塊</th>
+			          <th class="text-center" style="width: 18%">加購</th>
 		              <th class="text-center" style="width: 10%">刪除</th>
 		            </tr>
 		          </thead>
@@ -126,7 +127,9 @@
     			"item": client_cart_obj,
     			"quantity": client_cart_amount
     	}
-
+    	
+    	
+ 
     	// 發出POST的AJAX請求
         $.ajax({
           type: "POST",
@@ -238,14 +241,16 @@
         	table_html += '<td class="align-middle text-center"><span id="name_' + value.id + '">' + value.name + '</td>';
         	table_html += '<td class="align-middle text-center"><span id="price_' + value.id + '">' + value.price + '</td>';
         	table_html += '<td class="align-middle text-center"><input type="input" name="quantity[]" class="input-sm form-control text-center" id="quantity_' + value.id + '" maxlength="3" min="0" step="1"></td>';
-        	table_html += '<td class="align-middle text-center"><span id="icesugar_' + value.id + '">' + value.description + '</td>'; //***icesugar
-        	table_html += '<td class="align-middle text-center"><input id="addcup_' + value.id + '" name="add[]" type="checkbox" class="btn btn-danger"> 加購環保杯</td>';
+        	table_html += '<td class="align-middle text-center"><select name="sugar"><option>請選擇甜度</option><option value="0">正常糖</option><option value="1">半糖</option><option value="2">微糖</option><option value="3">無糖</option></select></td>';
+        	table_html += '<td class="align-middle text-center"><select name="ice"><option>請選擇冰塊</option><option value="0">正常冰</option><option value="1">少冰</option><option value="2">去冰</option></select></td>';
+        	table_html += '<td class="align-middle text-center"><a href="cup.html"><intput type="button" id="addcup_' + value.id + '" name="add[]" class="btn btn-dark" onclick="window.location.href">加購環保杯</a></td>';
         	table_html += '<td class="align-middle text-center"><button id="remove_' + value.id + '" name="remove[]" type="button" class="btn btn-danger">移除</button></td>';
         	table_html += '</tr>';
         })
 
       $("#cart_table > tbody").append(table_html);
     }
+   
 
     function getCartDataFromClient() {
     	let cart = JSON.parse(localStorage.getItem("client_cart_obj"));
