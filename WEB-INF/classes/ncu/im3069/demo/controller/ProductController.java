@@ -11,9 +11,9 @@ import ncu.im3069.tools.JsonReader;
 
 @WebServlet("/api/product.do")
 public class ProductController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+ private static final long serialVersionUID = 1L;
 
-	private ProductHelper ph =  ProductHelper.getHelper();
+ private ProductHelper ph =  ProductHelper.getHelper();
 
     public ProductController() {
         super();
@@ -21,8 +21,8 @@ public class ProductController extends HttpServlet {
     }
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+ protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         String id_list = jsr.getParameter("id_list");
@@ -44,11 +44,11 @@ public class ProductController extends HttpServlet {
         }
 
         jsr.response(resp, response);
-	}
+ }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  // TODO Auto-generated method stub
+  doGet(request, response);
+ }
 
 }

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>商品列表 ｜ balance</title>
+
+	 <!-- Bootstrap core CSS -->
+	 <!-- bootstrap import? -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+	<!-- bootstrap import -->
+	<link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="statics/img/LOGO.png" type="image/x-png" rel="icon">
+    <link href="statics/img/LOGO.png" type="image/x-png" rel="shortcut icon">
+
+
+
+	<style>
+	.bd-placeholder-img {
+	  font-size: 1.125rem;
+	  text-anchor: middle;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+
+
+	@media (min-width: 768px) {
+	  .bd-placeholder-img-lg {
+	    font-size: 3.5rem;
+	  }
+	}
+.container{
+	background: #E6E6E6;
+}
+
+.col-4{
+	height: 300px;
+}
+
+.photo{
+	width: 180px;
+	height: 280px;
+}
+
+.drink-name{
+	padding: 10px;
+}
+
+.price{
+	padding: 10px;
+	font-size: 23px;
+	font-weight:bold;
+}
+	
+	</style>
+
+	  <link href="statics/css/product.css" rel="stylesheet">
+
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+</head>
+<script>
+$(function(){
+	
+	
+	
+	//GetDetailTest();
+	
+	  function GetDetail() {
+		var getUrlString = location.href;//取url的值
+			var url = new URL(getUrlString);
+		var id =url.searchParams.get('id');
+	      $.ajax({
+	        type: "GET",
+	        url: "api/product.do",
+	        crossDomain: true,
+	        cache: false,
+	        dataType: 'json',
+	        timeout: 5000,
+	        success: function (response) {
+	        	console.log(response); 
+	        	
+	        	
+	        	document.getElementById("drinkname").textContent = response.response.data[id-1]["name"];
+	        	document.getElementById("price").textContent = "$"+response.response.data[id-1]["price"];
+	        	document.getElementById("P_img").src = "statics/img/product/"+response.response.data[id-1]["image"];
+	        	document.getElementById("description").textContent =response.response.data[id-1]["description"];
+	        
+	        	//var ProductSrc = "'statics/img/product/"+response.response.data[id-1]["image"]+"'";
+	        	//var obj  = document.setElementById("product");
+	        	//obj.src = "123";
+	        },
+	        error: function () {
+	          alert("無法連線到伺服器！");
+	        }
+	      });
+	    }
+	GetDetail();
+	 
+	 
+ })
+   
+   
+</script>
+<body>
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <a href="product.html"><img src="statics/img/LOGO.png" border="0"></a> <!-- LOGO -->
+    <h5 class="my-0 mr-md-auto font-weight-normal">balance</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="index.html">Member</a>
+      <a class="p-2 text-dark" href="product.html">Product</a>
+      <a class="p-2 text-dark" href="order.html">訂單列表</a>
+    </nav>
+    <a href="cart.html"><img src="statics/img/cart.png" width="50" height="50"></a>
+  </div>
+  
+  <div class="container">
+     
+   
+     
+	 
+
+	<div class="row align-items-center d-flex justify-content-between p-3">
+		<div class="col-4 text-center">
+	 		 <img id="P_img" src="" class="photo">
+		</div>
+		<div class="col-6">
+			<h2 class="drinkname" id = "drinkname">飲料</h2>
+			<p class="price"  id = "price"></p>
+
+			<div class="row">
+			  <div class="col">
+			  	<input type="radio" name="Ice" value="Regularice"> 正常冰<br>
+				<input type="radio" name="Ice" value="Lightice"> 少冰<br>
+				<input type="radio" name="Ice" value="Noice"> 去冰<br>
+
+			  </div>
+			  <div class="col">
+				<input type="radio" name="Sugar" value="Regularsugar"> 正常糖<br>
+				<input type="radio" name="Sugar" value="Halfsugar"> 半糖<br>
+				<input type="radio" name="Sugar" value="Lesssugar">微糖<br>
+				<input type="radio" name="Sugar" value="Nosugar"> 無糖<br>
+			  </div>
+			</div>
+			<div class="row text-center p-5">
+				<div class="col">
+					<button id ="minus" >-</button>
+					<input type="text" name="amount" value="1">
+					<button id ="add" >+</button>
+					<button id ="submit" >加入購物車</button>
+				</div>
+			</div>
+			</div>
+			
+			<div class="row">
+				<h2 class="text-center">詳細介紹</h2>
+				<p class="text-center" id="description">詳細介紹</p>
+			</div>
+
+		</div>
+	</div>
+		
+     
+     
+    
+  </div>
+</body>
+</html>
