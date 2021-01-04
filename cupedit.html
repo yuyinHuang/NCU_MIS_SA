@@ -51,7 +51,7 @@
 		<div class="container">
       		<div id="product_panel" class="row">
       		</div>
-      		<div style="text-align:right;">
+      		<div style="text-align:right;">      		   
       			<button name="newcup_btn" type="button" class="btn btn-lg btn-outline-success">新增</button>
     			<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
       			<button name="cancel_btn" type="button" class="btn btn-lg btn-outline-success">取消</button>
@@ -96,8 +96,11 @@
  		inner_html += '<center><img src="statics/img/cup/' + data.image + '" width="100%"></center>';
 		inner_html += '<center><h4 class="card-title pricing-card-title">' + data.name + '</h4></center>';
 		inner_html += '<div style="text-align:center;">';
-		inner_html += '<button id="edit_cup_' + data.id + '" name="editcup_btn" type="button" class="btn btn-outline-primary">編輯</button>';
+		//inner_html += '<td class="align-middle text-center"><intput type="button" id="edit_cup_' + value.id + '" name="editcup_btn" class="btn btn-outline-primary" onclick="window.location.href">編輯</a></td>';
+		inner_html += '<a href="change.html?id=' + data.id + '" class="stretched-link">編輯</a>';
+		//inner_html += '<a href="change.html"><button id="edit_cup_' + data.id + '" name="editcup_btn" type="button" class="btn btn-outline-primary"onclick="window.location.href">編輯</button>';
 		inner_html += '<button id="delete_cup_' + data.id + '" name="deletecup_btn" type="button" class="btn btn-outline-primary">刪除</button>';
+		
 		inner_html += '</div></div></div>';
 
     	

@@ -1,5 +1,7 @@
 package ncu.im3069.demo.app;
 
+import java.util.Calendar;
+
 import org.json.*;
 
 public class Cup {
@@ -18,6 +20,8 @@ public class Cup {
 	
 	 /** id，會員編號 */
 	private int quantity;
+	
+	private CupHelper ch =  CupHelper.getHelper();
 	
     /**
      * 實例化（Instantiates）一個新的（new）Cup 物件<br>
@@ -97,6 +101,23 @@ public class Cup {
 	public int getQuantity() {
 		return this.quantity;
 	}
+	
+	public JSONObject update() {
+        /** 新建一個JSONObject用以儲存更新後之資料 */
+        JSONObject data = new JSONObject();
+        /** 取得更新資料時間（即現在之時間）之分鐘數 */
+        
+        
+        /** 檢查該名會員是否已經在資料庫 */
+        if(this.id != 0) {
+            
+            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+            data = ch.update(this);
+        }
+        
+        return data;
+    }
+	
     /**
      * 取得產品資訊
      * @return JSONObject 回傳產品資訊
