@@ -187,7 +187,7 @@ public class CouponHelper {
 	            /** 取得資料庫之連線 */
 	            conn = DBMgr.getConnection();
 	            /** SQL指令 */
-	            String sql = "SELECT * FROM `missa`.`coupon` WHERE `id_Member` = ? LIMIT 1";
+	            String sql = "SELECT * FROM `missa`.`coupon` WHERE `id_Member` = ? ";
 	            
 	            /** 將參數回填至SQL指令當中 */
 	            pres = conn.prepareStatement(sql);
