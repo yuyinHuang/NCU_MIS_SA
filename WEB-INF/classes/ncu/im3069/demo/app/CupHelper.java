@@ -65,7 +65,7 @@ public class CupHelper {
                 int quantity = rs.getInt("quantity");
                 
                 /** 將每一筆商品資料產生一名新cup物件 */
-                c = new Cup(cup_id, name, price, image, quantity);
+                c = new Cup(cup_id, name, image, price, quantity);
                 /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
                 jsa.put(c.getData());
             }
@@ -144,7 +144,7 @@ public class CupHelper {
               int quantity = rs.getInt("quantity");
               
               /** 將每一筆商品資料產生一名新Product物件 */
-              c = new Cup(cup_id, name, price, image, quantity);
+              c = new Cup(cup_id, name, image,price,  quantity);
               /** 取出該項商品之資料並封裝至 JSONsonArray 內 */
               jsa.put(c.getData());
           }
@@ -214,9 +214,6 @@ public class CupHelper {
             /** 關閉連線並釋放所有資料庫相關之資源 **/
             DBMgr.close(pres, conn);
         }
-        
-        
-        
         /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
@@ -261,7 +258,7 @@ public class CupHelper {
                 int quantity = rs.getInt("quantity");
                 
                 /** 將每一筆商品資料產生一名新Product物件 */
-                c = new Cup(cup_id, name, price, image, quantity);
+                c = new Cup(cup_id, name, image,price,  quantity);
             }
 
         } catch (SQLException e) {
@@ -315,8 +312,6 @@ public class CupHelper {
             DBMgr.close(rs, pres, conn);
         }
 
-       
-        
         /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
@@ -324,5 +319,54 @@ public class CupHelper {
        
         return response;
     }
+    public JSONObject create(Cup c) {
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄SQL總行數 */
+        int row = 0;        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "INSERT INTO `missa`.`cup`( `name`, `image`, `price`, `quantity`)"
+                    + " VALUES( ?, ?, ?, ?)";
+            
+            /** 取得所需之參數 */
+            String name = c.getName();
+            String image = c.getImage();
+            int price = c.getPrice();
+            int quantity = c.getQuantity();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, name);
+            pres.setString(2, image);
+            pres.setInt(3, price);
+            pres.setInt(4, quantity);
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+            
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("data", row);
+        response.put("row", row);
+        return response;
+    }
     
-}
+	}

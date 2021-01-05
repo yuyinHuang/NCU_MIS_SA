@@ -48,10 +48,42 @@ public class CupController extends HttpServlet {
         jsr.response(resp, response);
  }
 
- protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-  // TODO Auto-generated method stub
-  doGet(request, response);
- }
+ public void doPost(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+	        JsonReader jsr = new JsonReader(request);
+	        JSONObject jso = jsr.getObject();
+	        
+	        /** 取出經解析到JSONObject之Request參數 */
+	      
+            String name = jso.getString("name");
+            int price = jso.getInt("price");
+            String image = jso.getString("image");
+            int quantity = jso.getInt("quantity");
+	        
+	        /** 建立一個新的會員物件 */
+            Cup c = new Cup(name, image, price, quantity);
+	            /** 透過MemberHelper物件的create()方法新建一個會員至資料庫 */
+	            JSONObject data = ch.create(c);
+	            
+	            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+	            JSONObject resp = new JSONObject();
+	            resp.put("status", "200");
+	            resp.put("message", "成功新增環保杯!");
+	            resp.put("response", data);
+	            
+	            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+	            jsr.response(resp, response);
+	        }
+
+	    /**
+	     * 處理Http Method請求GET方法（取得資料）
+	     *
+	     * @param request Servlet請求之HttpServletRequest之Request物件（前端到後端）
+	     * @param response Servlet回傳之HttpServletResponse之Response物件（後端到前端）
+	     * @throws ServletException the servlet exception
+	     * @throws IOException Signals that an I/O exception has occurred.
+	     */
  public void doPut(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 	        /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
@@ -66,7 +98,7 @@ public class CupController extends HttpServlet {
             int quantity =jso.getInt("quantity");
 
 	        /** 透過傳入之參數，新建一個以這些參數之會cup物件 */
-	        Cup c = new Cup(id, name, price, image, quantity);
+	        Cup c = new Cup(id, name, image,price,  quantity);
 	        
 	        /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
 	        JSONObject data = c.update();
@@ -74,7 +106,7 @@ public class CupController extends HttpServlet {
 	        /** 新建一個JSONObject用於將回傳之資料進行封裝 */
 	        JSONObject resp = new JSONObject();
 	        resp.put("status", "200");
-	        resp.put("message", "成功! 更新會員資料...");
+	        resp.put("message", "成功更新環保杯資訊!");
 	        resp.put("response", data);
 	        
 	        /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
@@ -88,7 +120,7 @@ public class CupController extends HttpServlet {
 	        
 	        /** 取出經解析到JSONObject之Request參數 */
 	        int id = jso.getInt("id");
-	        
+	        System.out.println("OK");
 	        /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
 	        JSONObject query = ch.deleteByID(id);
 	        

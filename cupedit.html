@@ -52,9 +52,7 @@
       		<div id="product_panel" class="row">
       		</div>
       		<div style="text-align:right;">      		   
-      			<button name="newcup_btn" type="button" class="btn btn-lg btn-outline-success">新增</button>
-    			<button name="confirm_btn" type="button" class="btn btn-lg btn-outline-success">確認</button>
-      			<button name="cancel_btn" type="button" class="btn btn-lg btn-outline-success">取消</button>
+      			<a name="newcup_btn" type="button" class="btn btn-lg btn-outline-success" href="newcup.html">新增</a>
     		</div>
   		</div>
   	</div>
@@ -62,7 +60,7 @@
   <script>   
     var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
    
-    function getAllProduct() {
+    function getAllCup() {
       $.ajax({
         type: "GET",
         url: "api/cup.do", //這裡有改
@@ -72,7 +70,7 @@
         timeout: 5000,
         success: function (response) {
           if (response.status == 200) {
-        	var product_panel = '';
+        	  var product_panel = '';
         	
         	$.each(response.response.data, function (){
         		product_panel += addProduct(this);
@@ -88,7 +86,7 @@
       });
     }
 
-    getAllProduct();
+    getAllCup();
     function addProduct(data) {
     	let inner_html = '';
     	inner_html += '<div class="col-md-3">';
@@ -96,14 +94,11 @@
  		inner_html += '<center><img src="statics/img/cup/' + data.image + '" width="100%"></center>';
 		inner_html += '<center><h4 class="card-title pricing-card-title">' + data.name + '</h4></center>';
 		inner_html += '<div style="text-align:center;">';
-		//inner_html += '<td class="align-middle text-center"><intput type="button" id="edit_cup_' + value.id + '" name="editcup_btn" class="btn btn-outline-primary" onclick="window.location.href">編輯</a></td>';
-		inner_html += '<a href="change.html?id=' + data.id + '" class="stretched-link">編輯</a>';
-		//inner_html += '<a href="change.html"><button id="edit_cup_' + data.id + '" name="editcup_btn" type="button" class="btn btn-outline-primary"onclick="window.location.href">編輯</button>';
-		inner_html += '<button id="delete_cup_' + data.id + '" name="deletecup_btn" type="button" class="btn btn-outline-primary">刪除</button>';
+		inner_html += '<button id="edit_cup_' + data.id + '" name="editcup_btn" type="button" class="btn btn-outline-primary">編輯</button>';
+		inner_html += '<a id="delete_cup_' + data.id + '" name="deletecup_btn" type="button" class="btn btn-outline-primary"a href=" javascript: deleteCup( '+ data.id + ')"href="cupedit.html";>刪除</a>';
 		
 		inner_html += '</div></div></div>';
-
-    	
+	
 		return inner_html;
     }
     
@@ -112,16 +107,16 @@
     		var action = (this.id).split('_')[0];
 			var stuff = (this.id).split('_')[1];
 			var id = (this.id).split('_')[2];
-			alert("編輯副商品, id=" + id);
+			var url = "changecup.html?id="+id;
+			window.location.href = url;
         });
-    	$('button[name="deletecup_btn"]').click(function () {
+    	
+    	$('button[name="newcup_btn"]').click(function () {
     		var action = (this.id).split('_')[0];
 			var stuff = (this.id).split('_')[1];
 			var id = (this.id).split('_')[2];
-			alert("刪除副商品, id=" + id);
-        });
-    	$('button[name="newcup_btn"]').click(function () {
-			alert("新增副商品");
+			var url = "newcup.html?id="+id;
+			window.location.href = url;
         });
     	$('button[name="confirm_btn"]').click(function () {
 			window.location.href = url;
@@ -162,18 +157,40 @@
     	    $('#' + id).html('選擇');
     	}
     }
-  </script>
+    
+    function deleteCup(id) {
+        var check = window.confirm("確認刪除副商品？");
+        if (check == true) {
+            console.log("You pressed OK!");
+            var request = {'id': id};
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "DELETE",
+                url: "api/cup.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if(response.status == 200){
+                        $("#flashMessage").html("成功! 已經成功刪除環保杯樣式...");
+                        $("#flashMessage").show();
+                       
+                    }
+                    console.log(response);
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+        }
+        else {
+            console.log("You pressed Cancel!");
+        }
+    }
 
-  <!-- <footer class="text-muted">
-    <div class="container">
-      <p class="float-right">
-        <a href="#">Back to top</a>
-      </p>
-      <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-      <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
-          href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p>
-    </div>
-  </footer> -->
+  </script>
 </body>
 
 </html>

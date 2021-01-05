@@ -39,7 +39,7 @@ public class Cup {
      * @param price 副商品價格
      * @param image 副商品圖片
      */
-	public Cup(String name, int price, String image) {
+	public Cup(String name,String image, int price ) {
 		this.name = name;
 		this.price = price;
 		this.image = image;
@@ -54,8 +54,16 @@ public class Cup {
      * @param image 副商品圖片
      * @param quantity 副商品數量
      */
-	public Cup(int id, String name, int price, String image, int quantity) {
+	public Cup(int id, String name, String image, int price,  int quantity) {
 		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.image = image;
+		this.quantity = quantity;
+	}
+
+	public Cup( String name, String image, int price,  int quantity) {
+		
 		this.name = name;
 		this.price = price;
 		this.image = image;
