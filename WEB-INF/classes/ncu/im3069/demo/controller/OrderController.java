@@ -58,6 +58,7 @@ public class OrderController extends HttpServlet {
         else {
           /** 透過 orderHelper 物件之 getAll() 方法取回所有訂單之資料，回傳之資料為 JSONObject 物件 */
           JSONObject query = oh.getAll();
+          
           resp.put("status", "200");
           resp.put("message", "所有訂單資料取得成功");
           resp.put("response", query);
@@ -81,16 +82,16 @@ public class OrderController extends HttpServlet {
         JSONObject jso = jsr.getObject();
 
         /** 取出經解析到 JSONObject 之 Request 參數 */
-        String first_name = jso.getString("first_name");
-        String last_name = jso.getString("last_name");
-        String email = jso.getString("email");
-        String address = jso.getString("address");
-        String phone = jso.getString("phone");
+        String stateOforder = jso.getString("stateOforder");
+        int id_Member = jso.getInt("id_Member");
+        String phoneNumber_Member = jso.getString("phoneNumber_Member");
+        String name_Member = jso.getString("name_Member");
+        String sn_Coupon = jso.getString("sn_Coupon");
         JSONArray item = jso.getJSONArray("item");
         JSONArray quantity = jso.getJSONArray("quantity");
 
         /** 建立一個新的訂單物件 */
-        Order od = new Order(first_name, last_name, email, address, phone);
+        Order od = new Order(stateOforder, id_Member, phoneNumber_Member, name_Member, sn_Coupon);
 
         /** 將每一筆訂單細項取得出來 */
         for(int i=0 ; i < item.length() ; i++) {
