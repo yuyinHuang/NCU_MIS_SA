@@ -105,15 +105,15 @@ $(function(){
    function addcart() {
 	var getUrlString = location.href; //取url的值
 	var url = new URL(getUrlString);
-var id =url.searchParams.get('id');
-if(Cookies.get("pid") == undefined){
-	 Cookies.set('pid', id);
-}
-else{
-	 currentPidItem = Cookies.get("pid");
-	 currentPidItem = currentPidItem+"," + id; 
-	 Cookies.set('pid', currentPidItem);
-}
+    var id =url.searchParams.get('id');
+    if(Cookies.get("pid") == undefined){
+	  Cookies.set('pid', id);
+	}
+    else{
+	  currentPidItem = Cookies.get("pid");
+	  currentPidItem = currentPidItem+"," + id; 
+	  Cookies.set('pid', currentPidItem);
+	}
 	
 	/////////////
 	     var ice = $('input:radio:checked[name="Ice"]').val();
@@ -185,8 +185,6 @@ else{
 			 currentCupItem = currentCupItem+"," +"沒有加購" ; 
 		     Cookies.set('cup', currentCupItem);
 		 }
-		 
-	
 	 }
 	 
 </script>

@@ -138,10 +138,10 @@
         });
     	$('button[name="confirm_btn"]').click(function () {
         	
-				//addProductToCart(choose, 1);
+			//addProductToCart(choose, 1);
 				
-				var getUrlString = location.href;//取url的值
-				var url = new URL(getUrlString);
+		    var getUrlString = location.href;//取url的值
+			var url = new URL(getUrlString);
 			var id =url.searchParams.get('id');
 				
 			if(choose==1)
@@ -153,40 +153,36 @@
 			if(choose==4)
 				selectcup="炙熱的愛";
 			
-				let cup = Cookies.get("cup");
-	        	 cup = cup.split(",");
-	        	 
-	        	 cup[id] = selectcup;
+			let cup = Cookies.get("cup");
+	        cup = cup.split(",");
+	        cup[id] = selectcup;
 	        	
-	        	 var length = cup.length;
-	        	 Cookies.remove('cup');
-	        	 var cups="";
-	        	 for(i=0;i<length;i++){
-	         		// console.log(drinkname);
-	         		if(i==0)
-	         			{
-	         			cups = cup[i];
-	         			}else
-	         				{
-	         				cups = cups+"," +cup[i];
-	         				}
-	         		
- 		
-	         	 }
+	        var length = cup.length;
+	        Cookies.remove('cup');
+	        var cups="";
+	        for(i=0;i<length;i++){
+	           if(i==0){
+	         	 cups = cup[i];
+	           }
+	           else{
+	        	 cups = cups+"," +cup[i];
+	           }
+	        }
 	        	 
-	        	 if(Cookies.get("cup") == undefined){
-	    	    	 Cookies.set('cup', cups);
-	    	     }
-	    	     else{
-	    	    	 currentCupItem = Cookies.get("cup");
-	    		     currentCupItem = currentCupItem+"," + cups; 
-	    			 Cookies.set('cup', currentCupItem);
-	    	     }
+	        if(Cookies.get("cup") == undefined){
+	        	 Cookies.set('cup', cups);
+	   	     }
+	   	     else{
+	   	    	 currentCupItem = Cookies.get("cup");
+	   		     currentCupItem = currentCupItem+"," + cups; 
+    			 Cookies.set('cup', currentCupItem);
+    		 }
 	        	 
-				var url = "cart.html?";	//跳轉至cart、?後面接選擇的參數
-				window.location.href = url;
-        	}
+			 var url = "cart.html?";	//跳轉至cart、?後面接選擇的參數
+		     window.location.href = url;
+           }
         );
+    	
     	$('button[name="cancel_btn"]').click(function () {
         	choose = 0;
 			var url = "cart.html?0";//跳轉至cart、?後面接0

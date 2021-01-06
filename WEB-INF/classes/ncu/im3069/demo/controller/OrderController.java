@@ -106,16 +106,14 @@ public class OrderController extends HttpServlet {
         Order od = new Order(phone_number, state_of_order);
         JSONObject result = oh.create(od);
         /** 將每一筆訂單細項取得出來 */
-        //System.out.println(item.length());
         for(int i=0 ; i < item.length() ; i++) {
         	 conn = DBMgr.getConnection();
-        	  //System.out.println(i);
         	 try {
                  /** 取得資料庫之連線 */
                  conn = DBMgr.getConnection();
                  /** SQL指令 */
                  String sql = "INSERT INTO `missa`.`orderdetails`(`id_Order`,`id_Product`, `specification_Product`, `quantity_Product`, `price_Product`, `id_Cup`,`quantity_Cup`,`price_Cup`,`price_Coupon`)"
-                         + " VALUES(?, ?, ?, ?, ?,?,?,?,?)";
+                         + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                  
                  /** 將參數回填至SQL指令當中 */
                  pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -125,7 +123,6 @@ public class OrderController extends HttpServlet {
                  pres.setInt(4, Integer.parseInt(amount.getString(i)));
                  //String test =price.getString(i);
                  //String[] strprice=test.split("$");
-                 //System.out.println(strprice[1]);
                  pres.setInt(5, Integer.parseInt(price.getString(i)));
                  pres.setString(6, cup.getString(i));
                  pres.setInt(7, Integer.parseInt(amount.getString(i)));
@@ -157,7 +154,7 @@ public class OrderController extends HttpServlet {
              }
         	 
             String product_id = item.getString(i);
-         //   int amount = quantity.getInt(i);
+            //int amount = quantity.getInt(i);
 
             /** 透過 ProductHelper 物件之 getById()，取得產品的資料並加進訂單物件裡 /
             Product pd = ph.getById(product_id);
@@ -165,10 +162,8 @@ public class OrderController extends HttpServlet {
         }
 
         /** 透過 orderHelper 物件的 create() 方法新建一筆訂單至資料庫 */
-        
         }
         
-     
         System.out.println(result.getLong("order_id"));
 
         /** 設定回傳回來的訂單編號與訂單細項編號 */

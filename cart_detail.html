@@ -150,15 +150,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
   <script>
-    var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
+    /*var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
 
-    /*if (client_cart_obj.length == 0) {
+    if (client_cart_obj.length == 0) {
     	alert("購物車沒有任何商品！");
     	calcSummaryInformation();
     }
     else
     	getCartProduct();
-*/
+    */
 
 
 $("#pay").click(function () {
@@ -174,9 +174,6 @@ $("#pay").click(function () {
 			"amount": Cookies.get("amount").split(','),
 			"cup": Cookies.get("cup").split(',')
 	}
-
-  
-
     	// 驗證輸入的資料
     	pass_vaild = vaildData(data);
     	if (pass_vaild) {
@@ -238,7 +235,8 @@ $("#pay").click(function () {
     	return false;
     }
 
-    function getCartProduct() {
+    
+    /*function getCartProduct() {
       $.ajax({
         type: "GET",
         url: "api/product.do",
@@ -260,9 +258,9 @@ $("#pay").click(function () {
           alert("無法連線到伺服器！");
         }
       });
-    }
+    }*/
 
-    function updateAllQuantitySubtotal() {
+    /*function updateAllQuantitySubtotal() {
     	for (var i=0 ; i < client_cart_obj.length ; i++) {
     		var id = client_cart_obj[i];
     		var amount = client_cart_amount[i];
@@ -271,14 +269,14 @@ $("#pay").click(function () {
     		var subtotal = calcSubTotal(price, amount);
     		$('#subtotal_' + id).html(subtotal);
     	}
-    }
+    }*/
 
-    function isNumberKey(evt){
+    /*function isNumberKey(evt){
 	    var charCode = (evt.which) ? evt.which : evt.keyCode
 	    if (charCode > 31 && (charCode < 48 || charCode > 57))
 	        return false;
 	    return true;
-    }
+    }*/
 
     function keyEventListen() {
     	$('input[name="quantity[]"').on(
@@ -320,11 +318,11 @@ $("#pay").click(function () {
      	);
     }
     
-    function calcSubTotal(price, quantity) {
+    /*function calcSubTotal(price, quantity) {
     	var result = (parseInt(price) * parseInt(quantity));
     	result = isNaN(result) ? 0 : result;
     	return result;
-    }
+    }*/
 
     function updateCartTable() {
     	table_html = '';
@@ -334,27 +332,29 @@ $("#pay").click(function () {
     	let ice = Cookies.get("ice");
     	let price = Cookies.get("price");
     	let cup = Cookies.get("cup");
-   		 cup = cup.split(",");
-    	 items = items.split(",");
-    	 amount = amount.split(",");
-    	 sugar = sugar.split(",");
-    	 ice = ice.split(",");
-    	 price = price.split(",");
-    	 var subtotal = 0;
-    	 var totalPrice=0;
-    	 var couponPrice=0;
-    	 var summary=0;
+    	items = items.split(",");
+    	amount = amount.split(",");
+    	sugar = sugar.split(",");
+    	ice = ice.split(",");
+    	price = price.split(",");
+   		cup = cup.split(",");
+    	var subtotal = 0;
+        var totalPrice = 0;
+        var couponPrice = 0;
+    	var summary = 0;
     	
     	$("#cart_table > tbody").empty();
     	
-   	 for(var i=0;i<items.length;i++){
-   		 if(cup[i]=="沒有加購"){
+   	    for(var i=0;i<items.length;i++){
+   		  if(cup[i]=="沒有加購"){
    			subtotal = Number(price[i])*Number(amount[i]);
    			
-   		 }else{
+   		  }
+   		  else{
    			subtotal = (Number(price[i])+Number(30))*Number(amount[i]);
-   			 }
-   		totalPrice = Number(totalPrice) +Number(subtotal);
+   		  }
+   		  totalPrice = Number(totalPrice) +Number(subtotal);
+   		
            	table_html += '<tr id="row_' + i + '">';
         	table_html += '<td class="align-middle text-center"><span id="name_">' + items[i] + '</td>';
         	table_html += '<td class="align-middle text-center"><span id="sugar_">' + sugar[i]+ '</td>'; //***sugar
@@ -362,7 +362,6 @@ $("#pay").click(function () {
         	table_html += '<td class="align-middle text-center"><span id="addcup_">' + cup[i] + '</td>'; //***addcup
         	table_html += '<td class="align-middle text-center"><span id="amount_">' + amount[i] + '</td>';//***quntity
         	table_html += '<td class="align-middle text-center"><strong><span id="subtotal_">' + subtotal + '<strong></td>';
-        	//table_html += '<td style="display:none" class="align-middle text-center"><span id="price_' + value.id + '">' + value.price + '</td>';
         	table_html += '</tr>';
         }
 
@@ -370,30 +369,30 @@ $("#pay").click(function () {
       summary = Number(totalPrice) - Number(couponPrice);
       document.getElementById("total_price").textContent = totalPrice;
       document.getElementById("summary").textContent = summary;
-  	
     }
 
     updateCartTable();
-    function getCartDataFromClient() {
+    
+    /*function getCartDataFromClient() {
     	let cart = JSON.parse(localStorage.getItem("client_cart_obj"));
     	let amount = JSON.parse(localStorage.getItem("client_cart_amount"));
     	cart = !cart ? new Array() : cart;
     	amount = !amount ? new Array() : amount;
     	return [cart, amount];
-    }
+    }*/
 
-    function updateCartDataToClent() {
+    /*function updateCartDataToClent() {
     	localStorage.setItem("client_cart_obj", JSON.stringify(client_cart_obj));
     	localStorage.setItem("client_cart_amount", JSON.stringify(client_cart_amount));
-    }
+    }*/
 
-    function updateClentCartData(id, quantity) {
+    /*function updateClentCartData(id, quantity) {
     	var i = client_cart_obj.indexOf(id);
     	client_cart_amount[i] = (quantity === "") ? 0 : parseInt(quantity);
     	updateCartDataToClent();
-    }
+    }*/
 
-    function calcSummaryInformation() {
+    /*function calcSummaryInformation() {
     	var total_item = client_cart_obj.length;
     	var total_price = 0;
     	var coupon_discount = $('#coupon_discount').html();
@@ -405,7 +404,6 @@ $("#pay").click(function () {
     		var quantity = $('#quantity_' + id).val();
     		calc = parseInt(price) * parseInt(quantity);
     		total_price += isNaN(calc) ? 0 : calc;
-    		/*total_quantity += (isNaN(quantity) || (quantity == "")) ? 0 : parseInt(quantity);*/
     	}
 		summary = total_price - coupon_discount;
 
@@ -416,7 +414,7 @@ $("#pay").click(function () {
     	$("#total_price").html(total_price);
     	$("#coupon_discount").html(coupon_discount);
     	$("#summary").html(summary);
-    }
+    }*/
   </script>
 
   <footer class="text-muted">

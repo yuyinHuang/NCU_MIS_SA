@@ -33,8 +33,8 @@ public class OrderHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`orders`(`phoneNumber_Member`,  `stateOforder`, `dateOforder`,`id_Member`)"
-                    + " VALUES(?, ?,  ?,?)";
+            String sql = "INSERT INTO `missa`.`orders`(`phoneNumber_Member`, `stateOforder`, `dateOforder`, `id_Member`)"
+                    + " VALUES(?, ?, ?, ?)";
             
             /** 取得所需之參數 */
             String phone_number = order.getPhone();

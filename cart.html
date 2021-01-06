@@ -113,9 +113,9 @@
   
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
   <script>
-    var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
+    /*var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
 
-    /*if (client_cart_obj.length == 0) {
+    if (client_cart_obj.length == 0) {
     	alert("購物車沒有任何商品！");
     	calcSummaryInformation();
     	setButtonState("pay", false);
@@ -129,8 +129,6 @@
     			"item": client_cart_obj,
     			"quantity": client_cart_amount
     	}
-    	
-    	
  
     	// 發出POST的AJAX請求
         $.ajax({
@@ -169,10 +167,9 @@
     	 ice = ice.split(",");
     	 price = price.split(",");
     	
-    	// console.log(items);
-    	 //console.log(items[0]);
-    	 	var totalDrinkPrice = 0;
-    	 	var totalcupPrice = 0;
+    	 var totalDrinkPrice = 0;
+    	 var totalcupPrice = 0;
+    	 
     	 $("#cart_table > tbody").empty();
     	 for(var i=0;i<items.length;i++){
             table_html += '<tr id="row_' + i + '">';
@@ -188,23 +185,20 @@
         	totalDrinkPrice=Number(totalDrinkPrice)+Number(price[i])*Number(amount[i]);
         	if(cup[i]=="沒有加購"){
         		
-        	}else{
+        	}
+        	else{
         		totalcupPrice = Number(totalcupPrice)+Number(30)*Number(amount[i]);
         	}
-        	//alert(totalPrice);
-        
-         
         }
 
       $("#cart_table > tbody").append(table_html);
       totalPrice = Number(totalDrinkPrice)+Number(totalcupPrice);
-  	document.getElementById("product_price").textContent = totalDrinkPrice;
-  	document.getElementById("cup_price").textContent = totalcupPrice;
-  	document.getElementById("total_price").textContent = totalPrice;
+  	  document.getElementById("product_price").textContent = totalDrinkPrice;
+  	  document.getElementById("cup_price").textContent = totalcupPrice;
+  	  document.getElementById("total_price").textContent = totalPrice;
     }
-    getCartProduct()
     
-   
+    getCartProduct()
     
     $('button[name="remove[]"').click(function () {
     	
@@ -217,18 +211,18 @@
         	let price = Cookies.get("price");
            	let cup = Cookies.get("cup");
         	let pid = Cookies.get("pid");
-        	pid = pid.split(",");
-       	 cup = cup.split(",");
-        	 items = items.split(",");
-        	 P_img = P_img.split(",");
-        	 amount = amount.split(",");
-        	 sugar = sugar.split(",");
-        	 ice = ice.split(",");
-        	 price = price.split(",");
-   
- 				var j =Number(id)+ 1;
+        	items = items.split(",");
+        	P_img = P_img.split(",");
+        	amount = amount.split(",");
+        	sugar = sugar.split(",");
+        	ice = ice.split(",");
+        	price = price.split(",");
+           	cup = cup.split(",");
+         	pid = pid.split(",");
+    
+         	var j =Number(id)+ 1;
 
-        	 for(i=id;i<amount.length-1;i++){
+            for(i=id;i<amount.length-1;i++){
         		 items[i]=items[j];
         		 P_img[i]=P_img[j];
         		 amount[i]=amount[j];
@@ -248,11 +242,8 @@
         	var	ices = ice[0];
         	var	prices = price[0];
         	var	cups = cup[0];
-        	//alert(items[0]);
-        	//	alert(drinkname);
         	 
-        	 for(i=1;i<amount.length-1;i++){
-        		// console.log(drinkname);
+        	for(i=1;i<amount.length-1;i++){
         		drinkname = drinkname+"," +items[i];
         		img= img+"," +P_img[i];
         		amounts = amounts+"," +amount[i];
@@ -337,8 +328,8 @@
     		     Cookies.set('cup', currentCupItem);
     		 }
     		 getCartProduct();
-        	 
     	});
+    
     function removeCookie(){
     	Cookies.remove('drinkname');
     	Cookies.remove('P_img');
@@ -348,8 +339,8 @@
     	Cookies.remove('price');
     	Cookies.remove('cup');
     	Cookies.remove('pid');
-    	
     }
+    
     /*function getCartProduct() {
       $.ajax({
         type: "GET",
@@ -373,23 +364,23 @@
       });
     }*/
 
-    function updateAllQuantitySubtotal() {
+    /*function updateAllQuantitySubtotal() {
     	for (var i=0 ; i < client_cart_obj.length ; i++) {
     		var id = client_cart_obj[i];
     		var amount = client_cart_amount[i];
     		var price = $('#price_' + id).html();
     		$('#quantity_' + id).val(amount);
     	}
-    }
+    }*/
 
-    function isNumberKey(evt){
+    /*function isNumberKey(evt){
 	    var charCode = (evt.which) ? evt.which : evt.keyCode
 	    if (charCode > 31 && (charCode < 48 || charCode > 57))
 	        return false;
 	    return true;
-    }
+    }*/
 
-    function keyEventListen() {
+    /*function keyEventListen() {
     	$('input[name="quantity[]"').on(
           'keypress',
           function (e) {
@@ -409,18 +400,15 @@
  	          calcSummaryInformation();
  	        }
  	    );
+    }*/
 
-    	
-
-    }
-
-    function calcSubTotal(price, quantity) {
+    /*function calcSubTotal(price, quantity) {
     	var result = (parseInt(price) * parseInt(quantity));
     	result = isNaN(result) ? 0 : result;
     	return result;
-    }
+    }*/
 
-    function updateCartTable(data) {
+    /*function updateCartTable(data) {
     	table_html = '';
     	$("#cart_table > tbody").empty();
         $.each(data, function(index, value) {
@@ -438,33 +426,28 @@
 
       $("#cart_table > tbody").append(table_html);
      
-    }
-    function getSugerIce(){
-    	var selectSuger = document.getElementById("suger");
-    	var sugarIndex = selectSugar.selectedIndex;
-    	var selectSugarText = selectSugar.options[sugarIndex].text;
-    }
+    }*/
 
-    function getCartDataFromClient() {
+    /*function getCartDataFromClient() {
     	let cart = JSON.parse(localStorage.getItem("client_cart_obj"));
     	let amount = JSON.parse(localStorage.getItem("client_cart_amount"));
     	cart = !cart ? new Array() : cart;
     	amount = !amount ? new Array() : amount;
     	return [cart, amount];
-    }
+    }*/
 
-    function updateCartDataToClent() {
+    /*function updateCartDataToClent() {
     	localStorage.setItem("client_cart_obj", JSON.stringify(client_cart_obj));
     	localStorage.setItem("client_cart_amount", JSON.stringify(client_cart_amount));
-    }
+    }*/
 
-    function updateClentCartData(id, quantity) {
+    /*function updateClentCartData(id, quantity) {
     	var i = client_cart_obj.indexOf(id);
     	client_cart_amount[i] = (quantity === "") ? 0 : parseInt(quantity);
     	updateCartDataToClent();
-    }
+    }*/
 
-    function calcSummaryInformation() {
+    /*function calcSummaryInformation() {
     	var total_item = client_cart_obj.length;
     	var product_price = 0;
     	var cup_price = 0;
@@ -476,7 +459,6 @@
     		var quantity = $('#quantity_' + id).val();
     		calc = parseInt(price) * parseInt(quantity);
     		product_price += isNaN(calc) ? 0 : calc;
-    		/*total_quantity += (isNaN(quantity) || (quantity == "")) ? 0 : parseInt(quantity);*/
     	}
 		total_price = product_price + cup_price;
 
@@ -484,13 +466,12 @@
     	var date = new Date();
     	var iso_date = date.toISOString();
 
-    	/*$("#date").html(iso_date.substring(0, 10));*/
     	$("#product_price").html(product_price);
     	$("#cup_price").html(cup_price);
     	$("#total_price").html(total_price);
-    }
+    }*/
 
-    function setButtonState(id, action) {
+    /*function setButtonState(id, action) {
       if (!action) {
           $('#' + id).prop('disabled', true);
           $('#' + id).addClass('disabled');
@@ -501,7 +482,7 @@
           $('#' + id).removeClass('disabled');
           $('#' + id).html('結帳');
       }
-    }
+    }*/
   </script>
 
   <footer class="text-muted">
