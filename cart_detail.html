@@ -165,7 +165,7 @@ $("#pay").click(function () {
 	var data = {
 			"phone_number": $("#phone_number").val(),
 			"password": $("#password").val(),
-			"state_of_order": "訂單已成立",
+			"state_of_order": "接收訂單",
 			"drinkname": Cookies.get("drinkname").split(','),
 			"pid": Cookies.get("pid").split(','),
 			"ice": Cookies.get("ice").split(','),
@@ -207,6 +207,14 @@ $("#pay").click(function () {
                             action: function () {
                           	  //cleanAllData();
                               document.location.href = "order.html";
+                              Cookies.remove('drinkname');
+                              Cookies.remove('P_img');
+                              Cookies.remove('ice');
+                              Cookies.remove('sugar');
+                              Cookies.remove('amount');
+                              Cookies.remove('price');
+                              Cookies.remove('cup');
+                              Cookies.remove('pid');
                             }
                         }
                     }
@@ -334,6 +342,8 @@ $("#pay").click(function () {
     	 price = price.split(",");
     	 var subtotal = 0;
     	 var totalPrice=0;
+    	 var couponPrice=0;
+    	 var summary=0;
     	
     	$("#cart_table > tbody").empty();
     	
@@ -357,7 +367,9 @@ $("#pay").click(function () {
         }
 
       $("#cart_table > tbody").append(table_html);
+      summary = Number(totalPrice) - Number(couponPrice);
       document.getElementById("total_price").textContent = totalPrice;
+      document.getElementById("summary").textContent = summary;
   	
     }
 
