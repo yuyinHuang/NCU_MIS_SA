@@ -11,8 +11,6 @@ public class Order {
     /** id，訂單編號 */
     private int id;
 
-    private String paymentMethod;
-
     private Timestamp dateOforder;
 
     private String stateOforder;
@@ -39,10 +37,9 @@ public class Order {
      * @param stateOforder
      */
     
-    public Order(String phoneNumber_Member, String name_Member, String paymentMethod, String stateOforder) {
+    public Order(String phoneNumber_Member,String stateOforder) {
         this.phoneNumber_Member = phoneNumber_Member;
-        this.name_Member = name_Member;
-        this.paymentMethod = paymentMethod;
+        //this.name_Member = name_Member;
         this.stateOforder = stateOforder;
         this.dateOforder = Timestamp.valueOf(LocalDateTime.now());
     }
@@ -58,11 +55,10 @@ public class Order {
      * @param stateOforder
      */
     
-    public Order(int id, String phoneNumber_Member, String name_Member, String paymentMethod, Timestamp dateOforder, String stateOforder) {
+    public Order(int id, String phoneNumber_Member, Timestamp dateOforder, String stateOforder) {
         this.id = id;
         this.phoneNumber_Member = phoneNumber_Member;
-        this.name_Member = name_Member;
-        this.paymentMethod = paymentMethod;
+        //this.name_Member = name_Member;
         this.stateOforder = stateOforder;
         this.dateOforder = Timestamp.valueOf(LocalDateTime.now());
         getOrderProductFromDB();
@@ -104,15 +100,7 @@ public class Order {
     public String getPhone() {
         return this.phoneNumber_Member;
     }
-    
-    /**
-     * 取得付款方式
-     *
-     * @return String 回傳付款方式
-     */
-    public String getPaymentMethod() {
-        return this.paymentMethod;
-    }
+   
     
     /**
      * 取得訂單狀態
@@ -157,9 +145,8 @@ public class Order {
     public JSONObject getOrderData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("name", getName());
+        //jso.put("name", getName());
         jso.put("phone_number", getPhone());
-        jso.put("payment_method", getPaymentMethod());
         jso.put("state_of_order", getStateOforder());
         jso.put("create", getCreateTime());
 

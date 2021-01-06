@@ -60,6 +60,7 @@
 
 	  <link href="statics/css/product.css" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
   <script src="statics/js/jquery-3.4.1.min.js"></script>
 </head>
 <script>
@@ -81,9 +82,7 @@ $(function(){
 	        dataType: 'json',
 	        timeout: 5000,
 	        success: function (response) {
-	        	console.log(response); 
-	        	
-	        	
+	        	console.log(response); 	
 	        	document.getElementById("drinkname").textContent = response.response.data[id-1]["name"];
 	        	document.getElementById("price").textContent = "$"+response.response.data[id-1]["price"];
 	        	document.getElementById("P_img").src = "statics/img/product/"+response.response.data[id-1]["image"];
@@ -103,11 +102,97 @@ $(function(){
 	 
  })
    
-   
+   function addcart() {
+	var getUrlString = location.href; //取url的值
+	var url = new URL(getUrlString);
+var id =url.searchParams.get('id');
+if(Cookies.get("pid") == undefined){
+	 Cookies.set('pid', id);
+}
+else{
+	 currentPidItem = Cookies.get("pid");
+	 currentPidItem = currentPidItem+"," + id; 
+	 Cookies.set('pid', currentPidItem);
+}
+	
+	/////////////
+	     var ice = $('input:radio:checked[name="Ice"]').val();
+	     if(Cookies.get("ice") == undefined){
+	    	 Cookies.set('ice', ice);
+	     }
+	     else{
+	    	 currentIceItem = Cookies.get("ice");
+		     currentIceItem = currentIceItem+"," + ice; 
+			 Cookies.set('ice', currentIceItem);
+	     }
+		
+		 var sugar = $('input:radio:checked[name="Sugar"]').val();
+		 if(Cookies.get("sugar") == undefined){
+			 Cookies.set('sugar', sugar);
+		 }
+		 else{
+			 currentSugarItem = Cookies.get("sugar");
+		     currentSugarItem = currentSugarItem+"," + sugar; 
+		     Cookies.set('sugar', currentSugarItem);
+		 }
+		 
+		 var amount = document.getElementById("amount").value ;
+		 if(Cookies.get("amount") == undefined){
+			 Cookies.set('amount', amount);
+		 }
+		 else{
+			 currentAmountItem = Cookies.get("amount");
+			 currentAmountItem = currentAmountItem+"," + amount; 
+		     Cookies.set('amount', currentAmountItem);
+		 }
+		 
+		 ///////
+		 var P_img = $("#P_img").attr("src");
+		 if(Cookies.get("P_img") == undefined){
+			 Cookies.set('P_img', P_img);
+		 }
+		 else{
+			 currentImgItem = Cookies.get("P_img");
+			 currentImgItem = currentImgItem+"," + P_img; 
+		     Cookies.set('P_img', currentImgItem);
+		 }
+		 
+		 var drinkname = document.getElementById("drinkname").textContent ;
+		 if(Cookies.get("drinkname") == undefined){
+			 Cookies.set('drinkname', drinkname);
+		 }
+		 else{
+			 currentNameItem = Cookies.get("drinkname");
+			 currentNameItem = currentNameItem+"," + drinkname; 
+		     Cookies.set('drinkname', currentNameItem);
+		 }
+		 
+		 var price = document.getElementById("price").textContent ;
+		 if(Cookies.get("price") == undefined){
+			 Cookies.set('price', price);
+		 }
+		 else{
+			 currentPriceItem = Cookies.get("price");
+			 currentPriceItem = currentPriceItem+"," + price; 
+		     Cookies.set('price', currentPriceItem);
+		 }
+		 
+		 if(Cookies.get("cup") == undefined){
+			 Cookies.set('cup', "沒有加購");
+		 }
+		 else{
+			 currentCupItem = Cookies.get("cup");
+			 currentCupItem = currentCupItem+"," +"沒有加購" ; 
+		     Cookies.set('cup', currentCupItem);
+		 }
+		 
+	
+	 }
+	 
 </script>
 <body>
 	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <a href="product.html"><img src="statics/img/LOGO.png" border="0"></a> <!-- LOGO -->
+    <a href="balance.html"><img src="statics/img/LOGO.png" border="0"></a> <!-- LOGO -->
     <h5 class="my-0 mr-md-auto font-weight-normal">balance</h5>
     <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="index.html">Member</a>
@@ -133,24 +218,22 @@ $(function(){
 
 			<div class="row">
 			  <div class="col">
-			  	<input type="radio" name="Ice" value="Regularice"> 正常冰<br>
-				<input type="radio" name="Ice" value="Lightice"> 少冰<br>
-				<input type="radio" name="Ice" value="Noice"> 去冰<br>
+			  	<input type="radio" name="Ice" id="Ice" value="正常冰"> 正常冰<br>
+				<input type="radio" name="Ice" id="Ice" value="少冰"> 少冰<br>
+				<input type="radio" name="Ice" id="Ice" value="去冰"> 去冰<br>
 
 			  </div>
 			  <div class="col">
-				<input type="radio" name="Sugar" value="Regularsugar"> 正常糖<br>
-				<input type="radio" name="Sugar" value="Halfsugar"> 半糖<br>
-				<input type="radio" name="Sugar" value="Lesssugar">微糖<br>
-				<input type="radio" name="Sugar" value="Nosugar"> 無糖<br>
+				<input type="radio" name="Sugar" value="正常糖"> 正常糖<br>
+				<input type="radio" name="Sugar" value="半糖"> 半糖<br>
+				<input type="radio" name="Sugar" value="微糖">微糖<br>
+				<input type="radio" name="Sugar" value="無糖"> 無糖<br>
 			  </div>
 			</div>
 			<div class="row text-center p-5">
 				<div class="col">
-					<button id ="minus" >-</button>
-					<input type="text" name="amount" value="1">
-					<button id ="add" >+</button>
-					<button id ="submit" >加入購物車</button>
+					<input type="text" name="amount" id="amount" value="1">
+					<button onclick="addcart()">加入購物車</button>
 				</div>
 			</div>
 			</div>
@@ -162,10 +245,6 @@ $(function(){
 
 		</div>
 	</div>
-		
-     
-     
-    
   </div>
 </body>
 </html>

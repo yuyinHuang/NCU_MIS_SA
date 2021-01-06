@@ -78,6 +78,7 @@
 			      </thead>
 		        <tbody>
 	            </tbody>
+	           
     	      </table>
 			</div>
 	      </div>
@@ -98,7 +99,6 @@
 			        <td class="align-middle text-center"><input type="password" class="form-control" id="password"  maxlength="15" required></td>
 			      </tr>
 			      <tr>
-			        <td class="align-middle text-center"><button id="log_in" class="btn btn-primary btn-lg btn-block" type="button" style="width:100px; height:50px;">LOG IN</button></td>
 			        <td class="align-middle "><a href="register.html">SIGN IN</a></td>
 			    </thead>
 		        <tbody>
@@ -142,28 +142,40 @@
 		      </ul>
 		      <button id="cart" class="btn btn-primary btn-lg btn-block" type="button" onclick="location.href='cart.html'">返回購物車</button>
 		      <button id="pay" class="btn btn-dark btn-lg btn-block" type="button">結帳</button>
+		     
 		</div>
       </div>
 	  </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
   <script>
     var [client_cart_obj, client_cart_amount]  = getCartDataFromClient();
 
-    if (client_cart_obj.length == 0) {
+    /*if (client_cart_obj.length == 0) {
     	alert("購物車沒有任何商品！");
     	calcSummaryInformation();
     }
     else
     	getCartProduct();
+*/
 
-    $("#pay").click(function () {
-    	var data = {
-    			"phone_number": $("#phone_number").val(),
-    			"password": $("#password").val(),
-    			"item": client_cart_obj,
-    			"quantity": client_cart_amount
-    	}
+
+$("#pay").click(function () {
+	var data = {
+			"phone_number": $("#phone_number").val(),
+			"password": $("#password").val(),
+			"state_of_order": "訂單已成立",
+			"drinkname": Cookies.get("drinkname").split(','),
+			"pid": Cookies.get("pid").split(','),
+			"ice": Cookies.get("ice").split(','),
+			"sugar": Cookies.get("sugar").split(','),
+			"price": Cookies.get("price").split(','),
+			"amount": Cookies.get("amount").split(','),
+			"cup": Cookies.get("cup").split(',')
+	}
+
+  
 
     	// 驗證輸入的資料
     	pass_vaild = vaildData(data);
@@ -193,7 +205,7 @@
                             text: '確定',
                             btnClass: 'btn-blue',
                             action: function () {
-                          	  cleanAllData();
+                          	  //cleanAllData();
                               document.location.href = "order.html";
                             }
                         }
@@ -283,14 +295,14 @@
  	        }
  	     );
     	
-    	$('input[name="coupon[]"').on(
+    	$('input[name="coupon"').on(
     	  'keypress',
     	  function (e) {
     	      return isNumberKey(e);
     	  }
         );
     	
-    	$('input[name="coupon[]"').on(
+    	$('input[name="coupon"').on(
      	  'keyup',
      	  function (e) {
      	      var coupon_discount = (isNaN(coupon)) ? 0 : 35;
@@ -306,24 +318,50 @@
     	return result;
     }
 
-    function updateCartTable(data) {
+    function updateCartTable() {
     	table_html = '';
+    	let items = Cookies.get("drinkname");
+    	let amount = Cookies.get("amount");
+    	let sugar = Cookies.get("sugar");
+    	let ice = Cookies.get("ice");
+    	let price = Cookies.get("price");
+    	let cup = Cookies.get("cup");
+   		 cup = cup.split(",");
+    	 items = items.split(",");
+    	 amount = amount.split(",");
+    	 sugar = sugar.split(",");
+    	 ice = ice.split(",");
+    	 price = price.split(",");
+    	 var subtotal = 0;
+    	 var totalPrice=0;
+    	
     	$("#cart_table > tbody").empty();
-        $.each(data, function(index, value) {
-           	table_html += '<tr id="row_' + value.id + '">';
-        	table_html += '<td class="align-middle text-center"><span id="name_' + value.id + '">' + value.name + '</td>';
-        	table_html += '<td class="align-middle text-center"><span id="sugar_' + value.id + '"></td>'; //***sugar
-        	table_html += '<td class="align-middle text-center"><span id="ice_' + value.id + '"></td>'; //***ice
-        	table_html += '<td class="align-middle text-center"><span id="addcup_' + value.id + '"></td>'; //***addcup
-        	table_html += '<td class="align-middle text-center"><input type="input" name="quantity[]" class="input-sm form-control text-center" id="quantity_' + value.id + '" maxlength="3" min="0" step="1"></td>';//***quntity
-        	table_html += '<td class="align-middle text-center"><strong><span id="subtotal_' + value.id + '"><strong></td>';
-        	table_html += '<td style="display:none" class="align-middle text-center"><span id="price_' + value.id + '">' + value.price + '</td>';
+    	
+   	 for(var i=0;i<items.length;i++){
+   		 if(cup[i]=="沒有加購"){
+   			subtotal = Number(price[i].split('$')[1])*Number(amount[i]);
+   			
+   		 }else{
+   			subtotal = (Number(price[i].split('$')[1])+Number(30))*Number(amount[i]);
+   			 }
+   		totalPrice = Number(totalPrice) +Number(subtotal);
+           	table_html += '<tr id="row_' + i + '">';
+        	table_html += '<td class="align-middle text-center"><span id="name_">' + items[i] + '</td>';
+        	table_html += '<td class="align-middle text-center"><span id="sugar_">' + sugar[i]+ '</td>'; //***sugar
+        	table_html += '<td class="align-middle text-center"><span id="ice_">' + ice[i]+ '</td>'; //***ice
+        	table_html += '<td class="align-middle text-center"><span id="addcup_">' + cup[i] + '</td>'; //***addcup
+        	table_html += '<td class="align-middle text-center"><span id="amount_">' + amount[i] + '</td>';//***quntity
+        	table_html += '<td class="align-middle text-center"><strong><span id="subtotal_">' + subtotal + '<strong></td>';
+        	//table_html += '<td style="display:none" class="align-middle text-center"><span id="price_' + value.id + '">' + value.price + '</td>';
         	table_html += '</tr>';
-        })
+        }
 
       $("#cart_table > tbody").append(table_html);
+      document.getElementById("total_price").textContent = totalPrice;
+  	
     }
 
+    updateCartTable();
     function getCartDataFromClient() {
     	let cart = JSON.parse(localStorage.getItem("client_cart_obj"));
     	let amount = JSON.parse(localStorage.getItem("client_cart_amount"));
@@ -346,18 +384,17 @@
     function calcSummaryInformation() {
     	var total_item = client_cart_obj.length;
     	var total_price = 0;
-    	var coupon_discount = 0;
+    	var coupon_discount = $('#coupon_discount').html();
     	var summary = 0;
 
     	for(var i=0 ; i < total_item ; i++) {
     		var id = client_cart_obj[i];
     		var price = $('#price_' + id).html();
-    		var quantity = $('#quantity_' + id).val()
+    		var quantity = $('#quantity_' + id).val();
     		calc = parseInt(price) * parseInt(quantity);
     		total_price += isNaN(calc) ? 0 : calc;
     		/*total_quantity += (isNaN(quantity) || (quantity == "")) ? 0 : parseInt(quantity);*/
     	}
-    	coupon_discount = (isNaN(coupon) || (coupon == "")) ? 0 : 35;
 		summary = total_price - coupon_discount;
 
     	// Client端日期
