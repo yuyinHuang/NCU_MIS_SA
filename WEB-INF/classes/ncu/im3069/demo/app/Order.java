@@ -10,33 +10,33 @@ public class Order {
 
     /** id，訂單編號 */
     private int id;
+	
+	private String  stateOforder;
 
     /** first_name，會員姓名 */
-    private String first_name;
+    private int id_Member;
 
     /** last_name，會員姓 */
-    private String last_name;
+    private String phoneNumber_Member;
 
     /** email，會員電子郵件信箱 */
-    private String email;
+    private String name_Member;
 
     /** address，會員地址 */
-    private String address;
+    private String sn_Coupon;
 
-    /** phone，會員手機 */
-    private String phone;
 
     /** list，訂單列表 */
-    private ArrayList<OrderItem> list = new ArrayList<OrderItem>();
+    private ArrayList<OrderDetail> list = new ArrayList<OrderDetail>();
 
     /** create，訂單創建時間 */
-    private Timestamp create;
+    private Timestamp createofOrder;
 
     /** modify，訂單修改時間 */
-    private Timestamp modify;
+    private Timestamp modifyOforder;
 
     /** oph，OrderItemHelper 之物件與 Order 相關之資料庫方法（Sigleton） */
-    private OrderItemHelper oph = OrderItemHelper.getHelper();
+    private OrderDetailHelper oph = OrderDetailHelper.getHelper();
 
     /**
      * 實例化（Instantiates）一個新的（new）Order 物件<br>
@@ -48,14 +48,15 @@ public class Order {
      * @param address 會員地址
      * @param phone 會員姓名
      */
-    public Order(String first_name, String last_name, String email, String address, String phone) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.create = Timestamp.valueOf(LocalDateTime.now());
-        this.modify = Timestamp.valueOf(LocalDateTime.now());
+    			
+    public Order(String stateOforder, int id_Member, String phoneNumber_Member, String name_Member, String sn_Coupon) {
+        this.stateOforder = stateOforder;
+        this.id_Member = id_Member;
+        this.phoneNumber_Member = phoneNumber_Member;
+        this.name_Member = name_Member;
+        this.sn_Coupon = sn_Coupon;
+        this.createofOrder = Timestamp.valueOf(LocalDateTime.now());
+        this.modifyOforder = Timestamp.valueOf(LocalDateTime.now());
     }
 
     /**
@@ -70,29 +71,29 @@ public class Order {
      * @param create 訂單創建時間
      * @param modify 訂單修改時間
      */
-    public Order(int id, String first_name, String last_name, String email, String address, String phone, Timestamp create, Timestamp modify) {
+    public Order(int id, String stateOforder, int id_Member, String phoneNumber_Member, String name_Member, String sn_Coupon, Timestamp createofOrder, Timestamp modifyOforder) {
         this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.create = create;
-        this.modify = modify;
-        getOrderProductFromDB();
+        this.stateOforder = stateOforder;
+        this.id_Member = id_Member;
+        this.phoneNumber_Member = phoneNumber_Member;
+        this.name_Member = name_Member;
+        this.sn_Coupon = sn_Coupon;
+        this.createofOrder = createofOrder;
+        this.modifyOforder = modifyOforder;
+        //getOrderProductFromDB();
     }
 
     /**
      * 新增一個訂單產品及其數量
      */
     public void addOrderProduct(Product pd, int quantity) {
-        this.list.add(new OrderItem(pd, quantity));
+        this.list.add(new OrderDetail(pd, quantity));
     }
 
     /**
      * 新增一個訂單產品
      */
-    public void addOrderProduct(OrderItem op) {
+    public void addOrderProduct(OrderDetail op) {
         this.list.add(op);
     }
 
@@ -111,14 +112,14 @@ public class Order {
     public int getId() {
         return this.id;
     }
-
+    
     /**
      * 取得訂單會員的名
      *
      * @return String 回傳訂單會員的名
      */
-    public String getFirstName() {
-        return this.first_name;
+    public String getStateOforder() {
+        return this.stateOforder;
     }
 
     /**
@@ -126,8 +127,8 @@ public class Order {
      *
      * @return String 回傳訂單會員的姓
      */
-    public String getLastName() {
-        return this.last_name;
+    public int getId_Member() {
+        return this.id_Member;
     }
 
     /**
@@ -135,8 +136,17 @@ public class Order {
      *
      * @return String 回傳訂單信箱
      */
-    public String getEmail() {
-        return this.email;
+    public String getPhoneNumber_Member() {
+        return this.phoneNumber_Member;
+    }
+    
+    
+    public String getName_Member() {
+    	return this.name_Member;
+    }
+    
+    public String getSn_Coupon() {
+    	return this.sn_Coupon;
     }
 
     /**
@@ -145,8 +155,10 @@ public class Order {
      * @return Timestamp 回傳訂單創建時間
      */
     public Timestamp getCreateTime() {
-        return this.create;
+        return this.createofOrder;
     }
+    
+    
 
     /**
      * 取得訂單修改時間
@@ -154,33 +166,16 @@ public class Order {
      * @return Timestamp 回傳訂單修改時間
      */
     public Timestamp getModifyTime() {
-        return this.modify;
+        return this.modifyOforder;
     }
 
-    /**
-     * 取得訂單地址
-     *
-     * @return String 回傳訂單地址
-     */
-    public String getAddress() {
-        return this.address;
-    }
-
-    /**
-     * 取得訂單電話
-     *
-     * @return String 回傳訂單電話
-     */
-    public String getPhone() {
-        return this.phone;
-    }
-
+    
     /**
      * 取得該名會員所有資料
      *
      * @return the data 取得該名會員之所有資料並封裝於JSONObject物件內
      */
-    public ArrayList<OrderItem> getOrderProduct() {
+    public ArrayList<OrderDetail> getOrderProduct() {
         return this.list;
     }
 
@@ -188,10 +183,10 @@ public class Order {
      * 從 DB 中取得訂單產品
      */
     private void getOrderProductFromDB() {
-        ArrayList<OrderItem> data = oph.getOrderProductByOrderId(this.id);
+        ArrayList<OrderDetail> data = oph.getOrderProductByOrderId(this.id);
         this.list = data;
     }
-
+    
     /**
      * 取得訂單基本資料
      *
@@ -200,13 +195,13 @@ public class Order {
     public JSONObject getOrderData() {
         JSONObject jso = new JSONObject();
         jso.put("id", getId());
-        jso.put("first_name", getFirstName());
-        jso.put("last_name", getLastName());
-        jso.put("email", getEmail());
-        jso.put("address", getAddress());
-        jso.put("phone", getPhone());
-        jso.put("create", getCreateTime());
-        jso.put("modify", getModifyTime());
+        jso.put("stateOforder", getStateOforder());
+        jso.put("id_Member", getId_Member());
+        jso.put("phoneNumber_Member", getPhoneNumber_Member());
+        jso.put("name_Member", getName_Member());
+        jso.put("sn_Coupon", getSn_Coupon());
+        jso.put("createofOrder", getCreateTime());
+        jso.put("modifyOforder", getModifyTime());
 
         return jso;
     }
@@ -217,10 +212,12 @@ public class Order {
      * @return JSONArray 取得訂單產品資料
      */
     public JSONArray getOrderProductData() {
-        JSONArray result = new JSONArray();
-
+        JSONArray result = new JSONArray();  
+   
         for(int i=0 ; i < this.list.size() ; i++) {
+   
             result.put(this.list.get(i).getData());
+            System.out.println(i);
         }
 
         return result;
@@ -235,6 +232,7 @@ public class Order {
         JSONObject jso = new JSONObject();
         jso.put("order_info", getOrderData());
         jso.put("product_info", getOrderProductData());
+        
 
         return jso;
     }

@@ -90,12 +90,18 @@
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("id");
+  if(id==null){
+	  data="";
+  }
+  else{ 
+	  data="id="+id;
+  }
   
   function getOrderData() {
 	  $.ajax({
           type: "GET",
-          url: "api/order.do",
-          data: "id=" + id,
+          url: "api/orderdetail.do",
+          data: data,
           crossDomain: true,
           cache: false,
           dataType: 'json',
@@ -103,7 +109,7 @@
           success: function (response) {
               if(response.status == 200){
             	  updateHTML(response.response.data);
-            	  alert("！");
+            	 
               }
               console.log(response);
           },
@@ -121,13 +127,13 @@
 	  
 	  $.each(data, function (key, value) {
 		  temp +='<tr>';
-		  temp += '<td class="align-middle text-center">' +value['id_Member']+ '</td>';
-		  temp += '<td class="align-middle text-center">' + value['createofOrder'] + '</td>';
-		  temp += '<td class="align-middle text-center">'  + value['stateOforder'] + '</td>';
-		  temp += '<td class="align-middle text-center">' + value['name_Member'] +'</td>';
-		  temp += '<td class="align-middle text-center">' + value['phoneNumber_Member'] +'</td>';
+		  temp += '<td class="align-middle text-center">' + value['order_info']['id']+ '</td>';
+		  temp += '<td class="align-middle text-center">' + value['order_info']['createofOrder'] + '</td>';
+		  temp += '<td class="align-middle text-center">' + value['order_info']['stateOforder'] + '</td>';
+		  temp += '<td class="align-middle text-center">' + value['order_info']['name_Member'] +'</td>';
+		  temp += '<td class="align-middle text-center">' + value['order_info']['phoneNumber_Member'] +'</td>';
 		  temp += '<td class="align-middle text-center">';
-		  temp += '<a href="orderdetail.html?id=' + value['id'] + '" class="stretched-link">詳細資料</a>';
+		  temp += '<a  href="orderdetail.html?order_id=' + value['order_info']['id'] + '" >詳細資料</a>';
 		  temp += '</td>';
 		  temp += '</tr>';
 		  
