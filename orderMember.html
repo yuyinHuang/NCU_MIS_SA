@@ -100,7 +100,7 @@
   function getOrderData() {
 	  $.ajax({
           type: "GET",
-          url: "api/orderdetail.do",
+          url: "api/order.do",
           data: data,
           crossDomain: true,
           cache: false,
@@ -133,7 +133,7 @@
 		  temp += '<td class="align-middle text-center">' + value['order_info']['name_Member'] +'</td>';
 		  temp += '<td class="align-middle text-center">' + value['order_info']['phoneNumber_Member'] +'</td>';
 		  temp += '<td class="align-middle text-center">';
-		  temp += '<a  href="orderdetailMgr.html?order_id=' + value['order_info']['id'] + '" >詳細資料</a>';
+		  temp += '<a  href="orderdetail.html?order_id=' + value['order_info']['id'] + '" >詳細資料</a>';
 		  temp += '</td>';
 		  temp += '</tr>';
 		  

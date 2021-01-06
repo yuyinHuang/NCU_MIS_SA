@@ -114,10 +114,10 @@
         <H3 class="d-block text-right mt-3">總金額$ <span id="total">{{total}}</span></H3>
         
         
-        <a id ="accept" type="button"  class="btn btn-outline-primary" >接收訂單</a>
-	    	<a id = "make" type="button" class="btn btn-outline-primary" >製作訂單</a>
-	    	<a id ="receive" type="button" class="btn btn-outline-primary" >領取訂單</a>
-	    	<a id = "back" type="button" class="btn btn-outline-primary" >副商品歸還</a>
+        <a id ="accept" type="button" class="btn btn-outline-primary">訂單已接收</a>
+	    	<a id = "make" type="button" class="btn btn-outline-primary">訂單製作完成</a>
+	    	<a id ="receive" type="button" class="btn btn-outline-primary" >訂單領取完畢</a>
+	    	<a id = "back" type="button" class="btn btn-outline-primary" >環保杯已歸還</a>
       </div>
        
       
@@ -140,8 +140,8 @@
        
        <div style="text-align:right">
       
-	    	<a class="btn btn-outline-primary" href="cart.html">修改訂單</a>
-	    	<a id="delete" class="btn btn-outline-primary" href="cart.html">刪除訂單</a>
+	    	<a id="edit_btn" type="button" class="btn btn-lg btn-outline-success">修改訂單</a>
+	    	<a id="delete"  type="button" class="btn btn-lg btn-outline-danger">刪除訂單</a>
     	</div>
      </div>
   </div>
@@ -151,6 +151,147 @@
   var url_string = window.location.href;
   var url = new URL(url_string);
   var id = url.searchParams.get("order_id");
+  
+  $("#accept").click(function(){
+	  var state = document.getElementById("accept").textContent;
+	  alert(state);
+	  
+      // 將資料組成JSON格式
+      var data_object = {
+    		  "id":id,
+      		"stateOforder":state,
+      		
+      };
+
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+
+      // 發出POST的PUT請求
+      $.ajax({
+              type: "PUT",
+              url: "api/order.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  $('#flashMessage').html(response.message);
+                  $('#flashMessage').show();
+                  if(response.status == 200){
+                     window.location.reload();
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+      });
+  });
+  $("#make").click(function(){
+	  var state = document.getElementById("make").textContent;
+	  alert(state);
+	  
+      // 將資料組成JSON格式
+      var data_object = {
+    		  "id":id,
+      		"stateOforder":state,
+      		
+      };
+
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+
+      // 發出POST的PUT請求
+      $.ajax({
+              type: "PUT",
+              url: "api/order.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  $('#flashMessage').html(response.message);
+                  $('#flashMessage').show();
+                  if(response.status == 200){
+                	  window.location.reload();
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+      });
+  });
+  $("#receive").click(function(){
+	  var state = document.getElementById("receive").textContent;
+	  alert(state);
+	  
+      // 將資料組成JSON格式
+      var data_object = {
+    		  "id":id,
+      		"stateOforder":state,
+      		
+      };
+
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+
+      // 發出POST的PUT請求
+      $.ajax({
+              type: "PUT",
+              url: "api/order.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  $('#flashMessage').html(response.message);
+                  $('#flashMessage').show();
+                  if(response.status == 200){
+                	  window.location.reload();
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+      });
+  });
+  $("#back").click(function(){
+	  var state = document.getElementById("back").textContent;
+	  alert(state);
+	  
+      // 將資料組成JSON格式
+      var data_object = {
+    		  "id":id,
+      		"stateOforder":state,
+      		
+      };
+
+      // 將JSON格式轉換成字串
+      var data_string = JSON.stringify(data_object);
+
+      // 發出POST的PUT請求
+      $.ajax({
+              type: "PUT",
+              url: "api/order.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  $('#flashMessage').html(response.message);
+                  $('#flashMessage').show();
+                  if(response.status == 200){
+                	  window.location.reload();
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+      });
+  });
   
   function getOrderData() {
 	  $.ajax({
@@ -165,7 +306,7 @@
               if(response.status == 200){
             	  updateHTML(response.response.data);
               }
-              setButtonFunction();
+              //setButtonFunction();
               
           },
           error: function () {
@@ -174,7 +315,14 @@
     });
   }
   
-  
+  $("#edit_btn").click(function () {
+		 var url_string = window.location.href;
+	     var url = new URL(url_string);
+	     var id = url.searchParams.get('order_id'); 
+	     document.location.href="orderEdit.html?id="+id;
+	    
+	     
+	})
   
   
   function getOrder() {
@@ -230,7 +378,7 @@
 		  temp += '<td class="align-middle text-center">' + v['product']['name'] + '</td>';
 		  temp += '<td class="align-middle text-center">' + v['specification_Product'] + '</td>';
 		  temp += '<td class="align-middle text-center">' + v['quantity_Product']+ '</td>';
-		  temp += '<td class="align-middle text-center">' + v['quantity_Cup']*v['price_Cup'] +'</td>';
+		  temp += '<td class="align-middle text-center">' + v['id_Cup'] +'</td>';
 		  temp += '<td class="align-middle text-center">' + (v['quantity_Cup']*v['price_Cup'] + v['quantity_Product']*v['price_Product'] )+'</td>';
 		  temp += '</tr>';	  
 		 
@@ -263,7 +411,7 @@
                  if(response.status == 200){
                      $("#flashMessage").html("成功! 已經成功刪除該筆訂單...");
                      $("#flashMessage").show();
-                     
+                     window.location.replace("http://localhost:8090/NCU_MIS_SA/orderMgr.html");
                  }
                  console.log(response);
              },
@@ -276,35 +424,18 @@
          console.log("You pressed Cancel!");
      }
  }
-  
- function setButtonFunction() {
- 	$('button[name="accept"]').click(function () {
- 		var action = (this.id).split('_')[0];
- 		var destination = (this.id).split('_')[1];
- 		var id = (this.id).split('_')[2];
- 		
-     });
- }
  
- function setButtonState(id, action) {
- 	if (!action) {
- 	    $('#' + id).prop('disabled', true);
- 	    $('#' + id).addClass('disabled');
- 	    $('#' + id).html('已接收');
- 	}
- 	else {
- 		$('#' + id).prop('disabled', false);
- 	    $('#' + id).removeClass('disabled');
- 	    $('#' + id).html('接收訂單');
- 	}
- }
  
-  function updateOrderProductTable(data) {
-	  
-	
-    
-  
-  }
+ /*function setButtonFunction() {
+ 	$('button[name="edit_btn"]').click(function () {
+ 		 var url_string = window.location.href;
+ 	     var url = new URL(url_string);
+ 	     var id = url.searchParams.get('order_id'); 
+ 	     document.location.href="orderEdit.html?id="+id;
+ 	})
+ }*/
+ 
+ 
   </script>
   <footer class="text-muted">
     <div class="container">
