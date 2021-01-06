@@ -349,10 +349,10 @@ $("#pay").click(function () {
     	
    	 for(var i=0;i<items.length;i++){
    		 if(cup[i]=="沒有加購"){
-   			subtotal = Number(price[i].split('$')[1])*Number(amount[i]);
+   			subtotal = Number(price[i])*Number(amount[i]);
    			
    		 }else{
-   			subtotal = (Number(price[i].split('$')[1])+Number(30))*Number(amount[i]);
+   			subtotal = (Number(price[i])+Number(30))*Number(amount[i]);
    			 }
    		totalPrice = Number(totalPrice) +Number(subtotal);
            	table_html += '<tr id="row_' + i + '">';

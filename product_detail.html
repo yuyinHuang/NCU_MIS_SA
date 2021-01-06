@@ -84,7 +84,7 @@ $(function(){
 	        success: function (response) {
 	        	console.log(response); 	
 	        	document.getElementById("drinkname").textContent = response.response.data[id-1]["name"];
-	        	document.getElementById("price").textContent = "$"+response.response.data[id-1]["price"];
+	        	document.getElementById("price").textContent = response.response.data[id-1]["price"];
 	        	document.getElementById("P_img").src = "statics/img/product/"+response.response.data[id-1]["image"];
 	        	document.getElementById("description").textContent =response.response.data[id-1]["description"];
 	        

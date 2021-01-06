@@ -185,7 +185,7 @@
         	table_html += '<td class="align-middle text-center"><a href="cup.html?id='+ i+'"><intput type="button" id="addcup_' + i + '" name="add[]" class="btn btn-dark" onclick="window.location.href">加購環保杯</a></td>';
         	table_html += '<td class="align-middle text-center"><button id="remove_' + i+ '" name="remove[]" type="button" class="btn btn-danger">移除</button></td>';
         	table_html += '</tr>';
-        	totalDrinkPrice=Number(totalDrinkPrice)+Number(price[i].split('$')[1])*Number(amount[i]) ;
+        	totalDrinkPrice=Number(totalDrinkPrice)+Number(price[i])*Number(amount[i]);
         	if(cup[i]=="沒有加購"){
         		
         	}else{

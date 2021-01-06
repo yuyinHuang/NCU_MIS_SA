@@ -104,10 +104,7 @@ public class OrderController extends HttpServlet {
 
         /** 建立一個新的訂單物件 */
         Order od = new Order(phone_number, state_of_order);
-      String [] strprice;
-      String test ; 
-      JSONObject result = oh.create(od);
-    //  System.out.println(item.getString(2));
+        JSONObject result = oh.create(od);
         /** 將每一筆訂單細項取得出來 */
         //System.out.println(item.length());
         for(int i=0 ; i < item.length() ; i++) {
@@ -124,13 +121,12 @@ public class OrderController extends HttpServlet {
                  pres = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                  pres.setInt(1, (int)result.getLong("order_id"));
                  pres.setInt(2,Integer.parseInt( pid.getString(i)));
-                 System.out.println(Integer.parseInt( pid.getString(i)));
                  pres.setString(3, ice.getString(i)+sugar.getString(i));
                  pres.setInt(4, Integer.parseInt(amount.getString(i)));
-                // test =price.getString(i);
-                // strprice=test.split("$");
+                 //String test =price.getString(i);
+                 //String[] strprice=test.split("$");
                  //System.out.println(strprice[1]);
-                 pres.setInt(5, 30);
+                 pres.setInt(5, Integer.parseInt(price.getString(i)));
                  pres.setString(6, cup.getString(i));
                  pres.setInt(7, Integer.parseInt(amount.getString(i)));
                  pres.setInt(8, 30);
