@@ -115,6 +115,8 @@
 	            <div class="col-md-12 mb-2">
 	              <label for="coupon">優惠券代碼</label>
 	              <input type="text" class="form-control" id="coupon" maxlength="10" value="">
+		          <hr class="mb-1">
+	              <button id="coupon" class="btn btn-primary btn-lg btn-block" type="button">Check</button>
 	          </div>
 	        </div>
 	      </div>
@@ -224,6 +226,34 @@ $("#pay").click(function () {
         });
     	}
     });
+    
+    $("#coupon").click(function () {
+    	var data_string = {
+    			"coupon": $("#coupon").val()
+    	}
+
+        	// 發出POST的AJAX請求
+            $.ajax({
+              type: "POST",
+              url: "api/coupon.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  if(response.status == 200){
+                	  document.getElementById("coupon_discount").textContent = 35;
+                	  var summary = Number(document.getElementById("summary").textContent) - Number(35);
+                	  document.getElementById("summary").textContent = summary;
+                	  
+                  }
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+            });
+        });
 
     function vaildData(data) {
     	var phone_rule = /^09\d{2}-\d{3}-\d{3}$/;
@@ -278,7 +308,7 @@ $("#pay").click(function () {
 	    return true;
     }*/
 
-    function keyEventListen() {
+    /*function keyEventListen() {
     	$('input[name="quantity[]"').on(
           'keypress',
           function (e) {
@@ -300,23 +330,7 @@ $("#pay").click(function () {
  	          calcSummaryInformation();
  	        }
  	     );
-    	
-    	$('input[name="coupon"').on(
-    	  'keypress',
-    	  function (e) {
-    	      return isNumberKey(e);
-    	  }
-        );
-    	
-    	$('input[name="coupon"').on(
-     	  'keyup',
-     	  function (e) {
-     	      var coupon_discount = (isNaN(coupon)) ? 0 : 35;
-     	    $('#coupon_discount').html(coupon_discount);
-     	    calcSummaryInformation();
-     	  }
-     	);
-    }
+    }*/
     
     /*function calcSubTotal(price, quantity) {
     	var result = (parseInt(price) * parseInt(quantity));
