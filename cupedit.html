@@ -49,9 +49,10 @@
 
   	<div class="album py-5 bg-light">
 		<div class="container">
+		 <div id="flashMessage" class="message" style="display: none;"></div>
       		<div id="product_panel" class="row">
       		</div>
-      		<div style="text-align:right;">      		   
+      		<div style="text-align:right;">          		  	   
       			<a name="newcup_btn" type="button" class="btn btn-lg btn-outline-success" href="newcup.html">新增</a>
     		</div>
   		</div>
@@ -85,7 +86,7 @@
         }
       });
     }
-
+    
     getAllCup();
     function addProduct(data) {
     	let inner_html = '';
@@ -159,7 +160,7 @@
     }
     
     function deleteCup(id) {
-        var check = window.confirm("確認刪除副商品？");
+        var check = window.confirm("確認刪除環保杯？");
         if (check == true) {
             console.log("You pressed OK!");
             var request = {'id': id};
@@ -174,9 +175,10 @@
                 timeout: 5000,
                 success: function (response) {
                     if(response.status == 200){
-                        $("#flashMessage").html("成功! 已經成功刪除環保杯樣式...");
+                        $("#flashMessage").html("成功! 已經成功刪除環保杯樣式~");
                         $("#flashMessage").show();
-                       
+                        $("#product_panel").empty();
+                        getAllCup();
                     }
                     console.log(response);
                 },
